@@ -1,7 +1,10 @@
 package routes
 
-import "github.com/gorilla/mux"
+import (
+	"github.com/HansBukerG/wm-back-end/src/controller"
+	"github.com/gorilla/mux"
+)
 
-var registerProductsRoutes = func(router *mux.Router) {
-	router.HandleFunc()
+var RegisterProductsRoutes = func(router *mux.Router) {
+	router.HandleFunc("/search/{searchString}", controller.GetProductByString).Methods("GET")
 }

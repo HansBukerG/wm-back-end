@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/HansBukerG/wm-back-end/src"
+
+	app "github.com/HansBukerG/wm-back-end/src"
 )
 
 func main() {
-	fmt.Println("Bienvenido al Rest de Mongo :D")
+	fmt.Println("Rest for products in GoLang made by Hans Buker Gutierrez")
 
 	app.App_init()
 }

@@ -63,9 +63,8 @@ func TestReadById(t *testing.T){
 	}
 }
 func TestUpdate(t *testing.T){
-	idTest := "5000"
+	idTest := 5000
 	testProduct := model.Product{
-		Id:          5000,
 		Brand:       "test updated",
 		Description: "test updated",
 		Image:       "test updated",
@@ -82,7 +81,7 @@ func TestUpdate(t *testing.T){
 	}
 }
 func TestDelete(t *testing.T){
-	idTest := "5000"
+	idTest := 5000
 
 	err := product_service.Delete(idTest)
 	if err != nil {

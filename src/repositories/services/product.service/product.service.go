@@ -28,7 +28,7 @@ func ReadById(id string) (model.Product, error){
 	return product, nil
 }
 
-func Update(product model.Product, id string) error{
+func Update(product model.Product, id int) error{
 
 	err:= product_repository.Update(product,id)
 	if err != nil {
@@ -38,7 +38,7 @@ func Update(product model.Product, id string) error{
 	return nil
 }
 
-func Delete(id string) error{
+func Delete(id int) error{
 	err := product_repository.Delete(id)
 	if err != nil {
 		return err

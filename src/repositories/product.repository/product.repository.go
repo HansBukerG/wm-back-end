@@ -23,16 +23,16 @@ func Create(product model.Product) error {
 	return nil
 }
 
-func Read() (model.Products,error) {
+func Read() (model.Products, error) {
 	var products model.Products
 
 	filter := bson.D{}
-	productList,err := collection.Find(ctx,filter)
+	productList, err := collection.Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
 
-	for productList.Next(ctx){
+	for productList.Next(ctx) {
 		var product model.Product
 		err = productList.Decode(&product)
 		if err != nil {
@@ -41,7 +41,7 @@ func Read() (model.Products,error) {
 		products = append(products, &product)
 	}
 
-	return products,nil
+	return products, nil
 }
 
 func ReadById(id string) model.Product {
@@ -50,10 +50,33 @@ func ReadById(id string) model.Product {
 	return product
 }
 
-func Update(product model.Product, id string) error {
+func Update(product model.Product, id int) error {
+	filter := bson.M{"id": id}
+
+	update := bson.M{
+		"$set": bson.M{
+			"brand":       product.Brand,
+			"description": product.Description,
+			"image":       product.Image,
+			"price":       product.Price,
+		},
+	}
+
+	_, err := collection.UpdateOne(ctx, filter, update)
+
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
-func Delete(id string) error {
+func Delete(id int) error {
+	filter :=  bson.M{"id": id}
+
+	_,err :=  collection.DeleteOne(ctx, filter)
+
+	if err != nil {
+		return err
+	}
 	return nil
 }

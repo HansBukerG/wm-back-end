@@ -32,6 +32,13 @@ func IsPalindrome(str string) bool{
     return true
 }
 
+func ApplyDiscount(products model.Products) model.Products{
+	for _, item := range products{
+		item.Discount_price = item.Price/2;
+	}
+	return products
+}
+
 func find(product *model.Product, products model.Products ) bool{
 
 	for _, item := range products{

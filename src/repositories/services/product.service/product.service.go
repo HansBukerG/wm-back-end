@@ -14,16 +14,20 @@ func SearchByString(search string)(model.Products, error){
 	var product model.Product
 	var err error
 	if len(search) <= 3{
-		//In this case scenario i will point to the readById function
+		//In this case scenario i point to the readById Function
 		product, err =  readById(search)
 		products = append(products, &product)
 	}else{
+		//in this case scenario, i point to the readByString Function
 		products,err = readByString(search)
 	}
 	if err != nil {
 		return nil, err
 	}
 
+	if utils.IsPalindrome(search){
+		products = utils.ApplyDiscount(products)
+	}
 	return products,err
 }
 
@@ -40,6 +44,8 @@ func readByString(search string) (model.Products, error){
 
 	field_brand := "brand"
 	field_description := "description"
+	
+
 	productsByBrand, err := product_repository.ReadByString(field_brand,search)
 	if err != nil {
 		return nil, err

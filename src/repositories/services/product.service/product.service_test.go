@@ -8,13 +8,14 @@ import (
 )
 
 func TestSearchByString(t *testing.T){
-		/*
+	/*
 	Example filters
 	*/
 	// filter := "ooy"
 	// filter := "asdfdsa" //palindrome
 	// filter := "vqhev"
-	filter := "eqrceli"
+	filter := "123"
+	// filter := "121"
 
 	products,err := product_service.SearchByString(filter)
 
@@ -27,7 +28,7 @@ func TestSearchByString(t *testing.T){
 		t.Fail()
 	}else{
 		for _, product := range products{
-			fmt.Printf("t: id: %v,brand: %v,description: %v,price: %v, found_item: %v\n", product.Id,product.Brand,product.Description,product.Price,product.Found_item)
+			fmt.Printf("t: id: %v,brand: %v,description: %v,price: %v, Discount_price: %v\n", product.Id,product.Brand,product.Description,product.Price,product.Discount_price)
 		}
 		t.Log("Success!")
 	}

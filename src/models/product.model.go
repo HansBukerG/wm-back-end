@@ -11,4 +11,5 @@ type Product struct {
 	Price       int                `json:"price"`
 }
 
+// type Product *product
 type Products []*Product

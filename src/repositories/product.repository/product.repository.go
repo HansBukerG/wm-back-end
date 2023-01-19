@@ -44,10 +44,31 @@ func Read() (model.Products, error) {
 	return products, nil
 }
 
-func ReadById(id string) model.Product {
-	var product model.Product
+func ReadById(id int) (model.Product,error) {
+	filter := bson.M{"id":id}
+	//i setted a void product, in case to fin anything into my find request
+	product := model.Product{
+		Id_object:   [12]byte{},
+		Id:          id,
+		Brand:       "",
+		Description: "",
+		Image:       "",
+		Price:       0,
+	}
 
-	return product
+	collection, err := collection.Find(ctx,filter)
+	if err != nil {
+		return product, err
+	}
+
+	for collection.Next(ctx){
+		err := collection.Decode(&product)
+		if err != nil {
+			return product, err
+		}
+	}
+
+	return product, err
 }
 
 func Update(product model.Product, id int) error {

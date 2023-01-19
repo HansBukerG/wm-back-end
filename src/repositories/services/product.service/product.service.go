@@ -1,6 +1,8 @@
 package product_service
 
 import (
+	"strconv"
+
 	product_repository "github.com/HansBukerG/wm-back-end/src/repositories/product.repository"
 
 	model "github.com/HansBukerG/wm-back-end/src/models"
@@ -23,9 +25,12 @@ func Read() (model.Products, error){
 }
 
 func ReadById(id string) (model.Product, error){
-	product := product_repository.ReadById(id)
 
-	return product, nil
+	id_int,err := strconv.Atoi(id)
+
+	product,err := product_repository.ReadById(id_int)
+
+	return product, err
 }
 
 func Update(product model.Product, id int) error{

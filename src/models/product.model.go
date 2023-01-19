@@ -9,6 +9,7 @@ type Product struct {
 	Description string             `json:"description"`
 	Image       string             `json:"image"`
 	Price       int                `json:"price"`
+	Found_item 	int				   `json:"found_item"`  //0 = TRUE : 1 = FALSE
 }
 
 // type Product *product

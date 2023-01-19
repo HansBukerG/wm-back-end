@@ -7,6 +7,7 @@ import (
 
 	"github.com/HansBukerG/wm-back-end/src/database"
 	"go.mongodb.org/mongo-driver/bson"
+	// "go.mongodb.org/mongo-driver/mongo"
 )
 
 var collection = database.GetCollection("products")
@@ -46,29 +47,31 @@ func Read() (model.Products, error) {
 
 func ReadById(id int) (model.Product,error) {
 	filter := bson.M{"id":id}
-	//i setted a void product, in case to fin anything into my find request
-	product := model.Product{
-		Id_object:   [12]byte{},
-		Id:          id,
-		Brand:       "",
-		Description: "",
-		Image:       "",
-		Price:       0,
-	}
-
-	collection, err := collection.Find(ctx,filter)
-	if err != nil {
-		return product, err
-	}
-
-	for collection.Next(ctx){
-		err := collection.Decode(&product)
-		if err != nil {
-			return product, err
-		}
-	}
-
+	var product model.Product
+	err := collection.FindOne(ctx,filter).Decode(&product)
 	return product, err
+}
+
+func ReadByString(field string,search string) (model.Products,error){
+	var products model.Products
+
+	filter := bson.M{field: bson.M{"$regex": search, "$options": "im"}}
+	
+	productList, err := collection.Find(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+
+	for productList.Next(ctx) {
+		var product model.Product
+		err = productList.Decode(&product)
+		if err != nil {
+			return nil, err
+		}
+		products = append(products, &product)
+	}
+
+	return products, nil
 }
 
 func Update(product model.Product, id int) error {

@@ -13,38 +13,6 @@ import (
 var collection = database.GetCollection("products")
 var ctx = context.Background()
 
-func Create(product model.Product) error {
-	var err error
-
-	_, err = collection.InsertOne(ctx, product)
-
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func Read() (model.Products, error) {
-	var products model.Products
-
-	filter := bson.D{}
-	productList, err := collection.Find(ctx, filter)
-	if err != nil {
-		return nil, err
-	}
-
-	for productList.Next(ctx) {
-		var product model.Product
-		err = productList.Decode(&product)
-		if err != nil {
-			return nil, err
-		}
-		products = append(products, &product)
-	}
-
-	return products, nil
-}
-
 func ReadById(id int) (model.Product,error) {
 	filter := bson.M{"id":id}
 	var product model.Product
@@ -56,7 +24,7 @@ func ReadByString(field string,search string) (model.Products,error){
 	var products model.Products
 
 	filter := bson.M{field: bson.M{"$regex": search, "$options": "im"}}
-	
+
 	productList, err := collection.Find(ctx, filter)
 	if err != nil {
 		return nil, err
@@ -87,17 +55,6 @@ func Update(product model.Product, id int) error {
 	}
 
 	_, err := collection.UpdateOne(ctx, filter, update)
-
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func Delete(id int) error {
-	filter :=  bson.M{"id": id}
-
-	_,err :=  collection.DeleteOne(ctx, filter)
 
 	if err != nil {
 		return err

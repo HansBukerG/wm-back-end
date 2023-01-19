@@ -9,23 +9,25 @@ import (
 	model "github.com/HansBukerG/wm-back-end/src/models"
 )
 
-func Create(product model.Product) error {
-	err := product_repository.Create(product)
-	if err != nil {
-		return err
+func SearchByString(search string)(model.Products, error){
+	var products model.Products
+	var product model.Product
+	var err error
+	if len(search) <= 3{
+		//In this case scenario i will point to the readById function
+		product, err =  readById(search)
+		products = append(products, &product)
+	}else{
+		products,err = readByString(search)
 	}
-	return nil
+	if err != nil {
+		return nil, err
+	}
+
+	return products,err
 }
 
-func Read() (model.Products, error){
-	// var products model.Products
-
-	products, err :=  product_repository.Read()
-
- 	return products, err
-}
-
-func ReadById(id string) (model.Product, error){
+func readById(id string) (model.Product, error){
 	id_int,err := strconv.Atoi(id)
 	if err != nil {
 		id_int = -1
@@ -34,7 +36,8 @@ func ReadById(id string) (model.Product, error){
 	return product, err
 }
 
-func ReadByString(search string) (model.Products, error){
+func readByString(search string) (model.Products, error){
+
 	field_brand := "brand"
 	field_description := "description"
 	productsByBrand, err := product_repository.ReadByString(field_brand,search)
@@ -48,22 +51,4 @@ func ReadByString(search string) (model.Products, error){
 	products := utils.UnifySlices(productsByBrand,productsByDescription)
 	
 	return products,err
-}
-
-func Update(product model.Product, id int) error{
-
-	err:= product_repository.Update(product,id)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func Delete(id int) error{
-	err := product_repository.Delete(id)
-	if err != nil {
-		return err
-	}
-	return nil
 }

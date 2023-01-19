@@ -22,6 +22,16 @@ func UnifySlices(brand,description model.Products) model.Products {
 	return products
 }
 
+func IsPalindrome(str string) bool{
+    for i := 0; i < len(str); i++ {
+        j := len(str)-1-i
+        if str[i] != str[j] {
+            return false   
+        }
+    }
+    return true
+}
+
 func find(product *model.Product, products model.Products ) bool{
 
 	for _, item := range products{
@@ -31,3 +41,4 @@ func find(product *model.Product, products model.Products ) bool{
 	}
 	return false
 }
+

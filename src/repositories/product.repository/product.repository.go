@@ -7,26 +7,24 @@ import (
 
 	"github.com/HansBukerG/wm-back-end/src/database"
 	"go.mongodb.org/mongo-driver/bson"
+	// "go.mongodb.org/mongo-driver/mongo"
 )
 
 var collection = database.GetCollection("products")
 var ctx = context.Background()
 
-func Create(product model.Product) error {
-	var err error
-
-	_, err = collection.InsertOne(ctx, product)
-
-	if err != nil {
-		return err
-	}
-	return nil
+func ReadById(id int) (model.Product,error) {
+	filter := bson.M{"id":id}
+	var product model.Product
+	err := collection.FindOne(ctx,filter).Decode(&product)
+	return product, err
 }
 
-func Read() (model.Products, error) {
+func ReadByString(field string,search string) (model.Products,error){
 	var products model.Products
 
-	filter := bson.D{}
+	filter := bson.M{field: bson.M{"$regex": search, "$options": "im"}}
+
 	productList, err := collection.Find(ctx, filter)
 	if err != nil {
 		return nil, err
@@ -44,12 +42,6 @@ func Read() (model.Products, error) {
 	return products, nil
 }
 
-func ReadById(id string) model.Product {
-	var product model.Product
-
-	return product
-}
-
 func Update(product model.Product, id int) error {
 	filter := bson.M{"id": id}
 
@@ -63,17 +55,6 @@ func Update(product model.Product, id int) error {
 	}
 
 	_, err := collection.UpdateOne(ctx, filter, update)
-
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func Delete(id int) error {
-	filter :=  bson.M{"id": id}
-
-	_,err :=  collection.DeleteOne(ctx, filter)
 
 	if err != nil {
 		return err

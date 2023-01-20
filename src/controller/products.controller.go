@@ -15,24 +15,23 @@ func GetProductByString(writer http.ResponseWriter, request *http.Request) {
 	searchString := varsRequest["searchString"]
 
 	//i call product_service to get my data from MongoDB
-	RegisterFound, err:= product_service.SearchByString(searchString)
+	RegisterFound, err := product_service.SearchByString(searchString)
 	if err != nil {
 		status = http.StatusNotFound
 	}
 	if len(RegisterFound) == 0 {
 		status = http.StatusNotFound
 
-	}else{
+	} else {
 		status = http.StatusAccepted
 	}
 
 	response, _ := json.Marshal(RegisterFound)
-	executeResponse(writer,status,response)
+	executeResponse(writer, status, response)
 }
 
-
 func executeResponse(writer http.ResponseWriter, status int, response []byte) {
-	writer.Header().Set("Content-Type", "aplication/json")
+	writer.Header().Set("Content-Type", "application/json")
 	writer.WriteHeader(status)
 	writer.Write(response)
 }

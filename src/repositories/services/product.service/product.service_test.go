@@ -1,7 +1,6 @@
 package product_service_test
 
 import (
-	"fmt"
 	"testing"
 	"github.com/HansBukerG/wm-back-end/src/repositories/services/product.service"
 
@@ -27,9 +26,6 @@ func TestSearchByString(t *testing.T){
 		t.Error("Query has 0 values inside")
 		t.Fail()
 	}else{
-		for _, product := range products{
-			fmt.Printf("t: id: %v,brand: %v,description: %v,price: %v, Discount_price: %v\n", product.Id,product.Brand,product.Description,product.Price,product.Discount_price)
-		}
 		t.Log("Success!")
 	}
 }

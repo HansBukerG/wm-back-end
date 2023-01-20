@@ -10,6 +10,8 @@ import (
 )
 
 func App_init() {
+	host := "localhost"
+	port := "8000"
 	route := mux.NewRouter()
 
 	routes.RegisterProductsRoutes(route)
@@ -21,7 +23,8 @@ func App_init() {
 	})
 
 	handler := c.Handler(route)
-	log.Fatal(http.ListenAndServe("localhost:8000", handler))
+	log.Println("ready to listen in: " + host + ":" + port)
+	log.Fatal(http.ListenAndServe(host+":"+port, handler))
 	http.Handle("/", route)
 
 }

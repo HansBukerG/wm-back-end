@@ -41,23 +41,3 @@ func ReadByString(field string,search string) (model.Products,error){
 
 	return products, nil
 }
-
-func Update(product model.Product, id int) error {
-	filter := bson.M{"id": id}
-
-	update := bson.M{
-		"$set": bson.M{
-			"brand":       product.Brand,
-			"description": product.Description,
-			"image":       product.Image,
-			"price":       product.Price,
-		},
-	}
-
-	_, err := collection.UpdateOne(ctx, filter, update)
-
-	if err != nil {
-		return err
-	}
-	return nil
-}

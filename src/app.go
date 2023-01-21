@@ -3,17 +3,34 @@ package app
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/HansBukerG/wm-back-end/src/routes"
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 )
 
 func App_init() {
+	host := "localhost"
 	route := mux.NewRouter()
 
 	routes.RegisterProductsRoutes(route)
 
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowCredentials: true,
+		AllowedMethods:   []string{"GET"},
+	})
+
+	handler := c.Handler(route)
+
+	httpPort := os.Getenv("HTTP_PORT")
+	if httpPort == "" {
+		httpPort = "8000"
+	}
+
+	log.Println("ready to listen in: " + host + ":" + httpPort)
+	log.Fatal(http.ListenAndServe(host+":"+httpPort, handler))
 	http.Handle("/", route)
-	log.Fatal(http.ListenAndServe("localhost:8000", route))
 
 }

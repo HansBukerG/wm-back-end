@@ -34,7 +34,9 @@ func IsPalindrome(str string) bool {
 
 func ApplyDiscount(products model.Products) model.Products {
 	for _, item := range products {
-		item.Discount_price = item.Price / 2
+		item.Discount_percentaje = 50
+		item.Original_price = item.Price
+		item.Price = item.Price / 2
 	}
 	return products
 }
@@ -47,4 +49,16 @@ func Find(product *model.Product, products model.Products) bool {
 		}
 	}
 	return false
+}
+
+func EmptyProduct() *model.Product {
+	product := model.Product{
+		Id:          0,
+		Brand:       "",
+		Description: "",
+		Image:       "",
+		Price:       0,
+	}
+
+	return &product
 }

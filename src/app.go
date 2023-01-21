@@ -3,6 +3,7 @@ package app
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/HansBukerG/wm-back-end/src/routes"
 	"github.com/gorilla/mux"
@@ -11,7 +12,6 @@ import (
 
 func App_init() {
 	host := "localhost"
-	port := "8000"
 	route := mux.NewRouter()
 
 	routes.RegisterProductsRoutes(route)
@@ -23,8 +23,14 @@ func App_init() {
 	})
 
 	handler := c.Handler(route)
-	log.Println("ready to listen in: " + host + ":" + port)
-	log.Fatal(http.ListenAndServe(host+":"+port, handler))
+
+	httpPort := os.Getenv("HTTP_PORT")
+	if httpPort == "" {
+		httpPort = "8000"
+	}
+
+	log.Println("ready to listen in: " + host + ":" + httpPort)
+	log.Fatal(http.ListenAndServe(host+":"+httpPort, handler))
 	http.Handle("/", route)
 
 }

@@ -26,7 +26,7 @@ func App_init() {
 
 	httpPort := os.Getenv("HTTP_PORT")
 	if httpPort == "" {
-		httpPort = "8000"
+		log.Fatal("Should define .env HTTP_PORT")
 	}
 
 	log.Println("ready to listen in port:" + httpPort)

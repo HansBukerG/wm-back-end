@@ -13,9 +13,7 @@ import (
 )
 
 var (
-	usr      = "productListUser"
-	pwd      = "productListPassword"
-	database = "promotions"
+	// database = "promotions"
 )
 
 func GetCollection(collection string) *mongo.Collection {
@@ -25,11 +23,23 @@ func GetCollection(collection string) *mongo.Collection {
 	}
 	host := os.Getenv("MONGO_HOST")
 	if host == "" {
-		host = "192.168.0.5"
+		log.Fatal("Should define .env MONGO_HOST")
 	}
 	port := os.Getenv("MONGO_PORT")
 	if port == "" {
-		port = "27018"
+		log.Fatal("Should define .env MONGO_PORT")
+	}
+	usr := os.Getenv("MONGO_USER")
+	if usr == "" {
+		log.Fatal("Should define .env MONGO_USER")
+	}
+	pwd := os.Getenv("MONGO_PASS")
+	if pwd == "" {
+		log.Fatal("Should define .env MONGO_PASS")
+	}
+	database := os.Getenv("MONGO_DATABASE")
+	if database == ""{
+		log.Fatal("Should define .env MONGO_DATABASE")
 	}
 
 	uri := fmt.Sprintf("mongodb://%s:%s@%s:%s", usr, pwd, host, port)

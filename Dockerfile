@@ -6,10 +6,11 @@ WORKDIR /go/HansBukerG/wm-back-end
 # Copy everything from my project to my wor directory
 COPY go.mod ./
 COPY go.sum ./
+COPY .env ./
 
 RUN go mod download
 
-COPY *.go ./
+COPY . ./
 
 RUN go build -o /wm-back-end
 
@@ -21,4 +22,4 @@ RUN go build -o /wm-back-end
 
 EXPOSE 8000
 
-CMD [ "/docker-gs-ping" ]
+CMD [ "/wm-back-end" ]

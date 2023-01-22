@@ -12,13 +12,13 @@ import (
 )
 
 func GetCollection(collection string) *mongo.Collection {
+	schema := app_env.GetEnv("MONGO_CONNECTION_SCHEME")
 	host := app_env.GetEnv("MONGO_HOST")
-	port := app_env.GetEnv("MONGO_PORT")
 	usr := app_env.GetEnv("MONGO_USER")
 	pwd := app_env.GetEnv("MONGO_PASS")
 	database := app_env.GetEnv("MONGO_DATABASE")
 
-	uri := fmt.Sprintf("mongodb://%s:%s@%s:%s", usr, pwd, host, port)
+	uri := fmt.Sprintf("%s://%s:%s@%s", schema, usr, pwd, host)
 	log.Println("URI: " + uri)
 
 	client, err := mongo.NewClient(options.Client().ApplyURI(uri))

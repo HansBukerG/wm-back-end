@@ -22,6 +22,16 @@ func UnifySlices(brand, description model.Products) model.Products {
 	return products
 }
 
+func Find(product *model.Product, products model.Products) bool {
+
+	for _, item := range products {
+		if item.Id == product.Id {
+			return true
+		}
+	}
+	return false
+}
+
 func IsPalindrome(str string) bool {
 	for i := 0; i < len(str); i++ {
 		j := len(str) - 1 - i
@@ -41,15 +51,7 @@ func ApplyDiscount(products model.Products) model.Products {
 	return products
 }
 
-func Find(product *model.Product, products model.Products) bool {
 
-	for _, item := range products {
-		if item.Id == product.Id {
-			return true
-		}
-	}
-	return false
-}
 
 func EmptyProduct() *model.Product {
 	product := model.Product{

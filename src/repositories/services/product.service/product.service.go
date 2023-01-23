@@ -9,52 +9,47 @@ import (
 	model "github.com/HansBukerG/wm-back-end/src/models"
 )
 
-func SearchByString(search string)(model.Products, error){
+func SearchByString(search string) (model.Products, error) {
 	var products model.Products
 	var product model.Product
 	var err error
-	if len(search) <= 3{
-		//In this case scenario i point to the readById Function
-		product, err =  readById(search)
+	id_int, err := strconv.Atoi(search)
+	if err == nil { //ITS A NUMBER
+		product, err = readById(id_int)
 		products = append(products, &product)
-	}else{
-		//in this case scenario, i point to the readByString Function
-		products,err = readByString(search)
+	} else { // ITS NOT A NUMBER
+		if len(search) > 3 {
+			products, err = readByString(search)
+		} else {
+			return nil, err
+		}
 	}
-	if err != nil {
-		return nil, err
-	}
-
-	if utils.IsPalindrome(search){
+	if utils.IsPalindrome(search) {
 		products = utils.ApplyDiscount(products)
 	}
-	return products,err
+
+	return products, err
 }
 
-func readById(id string) (model.Product, error){
-	id_int,err := strconv.Atoi(id)
-	if err != nil {
-		id_int = -1
-	}
-	product,err := product_repository.ReadById(id_int)
+func readById(id int) (model.Product, error) {
+	product, err := product_repository.ReadById(id)
 	return product, err
 }
 
-func readByString(search string) (model.Products, error){
+func readByString(search string) (model.Products, error) {
 
 	field_brand := "brand"
 	field_description := "description"
-	
 
-	productsByBrand, err := product_repository.ReadByString(field_brand,search)
+	productsByBrand, err := product_repository.ReadByString(field_brand, search)
 	if err != nil {
 		return nil, err
 	}
-	productsByDescription, err := product_repository.ReadByString(field_description,search)
+	productsByDescription, err := product_repository.ReadByString(field_description, search)
 	if err != nil {
 		return nil, err
 	}
-	products := utils.UnifySlices(productsByBrand,productsByDescription)
-	
-	return products,err
+	products := utils.UnifySlices(productsByBrand, productsByDescription)
+
+	return products, err
 }

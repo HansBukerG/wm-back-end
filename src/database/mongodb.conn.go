@@ -19,12 +19,11 @@ func GetCollection(collection string) *mongo.Collection {
 	database := app_env.GetEnv("MONGO_DATABASE")
 
 	uri := fmt.Sprintf("%s://%s:%s@%s", schema, usr, pwd, host)
-	log.Println("URI: " + uri)
 
 	client, err := mongo.NewClient(options.Client().ApplyURI(uri))
 
 	if err != nil {
-		log.Fatal("Error in connection!: " + uri)
+		log.Fatal("Error in connection!: ")
 		panic(err.Error())
 	}
 

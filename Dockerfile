@@ -14,6 +14,6 @@ COPY . ./
 
 RUN go build -o /wm-back-end
 
-EXPOSE 8000
+EXPOSE 8080
 
 CMD [ "/wm-back-end" ]

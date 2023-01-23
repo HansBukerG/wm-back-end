@@ -26,7 +26,7 @@ func App_init() {
 
 	httpPort := app_env.GetEnv("HTTP_PORT")
 
-	log.Println("ready to listen in port:" + httpPort)
+	log.Println("Rest ready to listen!")
 	log.Fatal(http.ListenAndServe(":"+httpPort, handler))
 	http.Handle("/", route)
 

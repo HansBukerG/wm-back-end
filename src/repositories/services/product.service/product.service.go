@@ -2,6 +2,7 @@ package product_service
 
 import (
 	"strconv"
+	"strings"
 
 	product_repository "github.com/HansBukerG/wm-back-end/src/repositories/product.repository"
 	"github.com/HansBukerG/wm-back-end/src/utils"
@@ -13,13 +14,18 @@ func SearchByString(search string) (model.Products, error) {
 	var products model.Products
 	var product model.Product
 	var err error
+
+	if strings.Trim(search, " ") == "" {
+		return nil, err
+	}
+
 	id_int, err := strconv.Atoi(search)
 	if err == nil { //ITS A NUMBER
 		product, err = readById(id_int)
 		products = append(products, &product)
 	} else { // ITS NOT A NUMBER
 		if len(search) > 3 {
-			products, err = readByString(search)
+			products, err = readByString(strings.ToLower(search))
 		} else {
 			return nil, err
 		}

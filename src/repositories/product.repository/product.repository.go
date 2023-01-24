@@ -4,6 +4,7 @@ import (
 	"context"
 
 	model "github.com/HansBukerG/wm-back-end/src/models"
+	// "github.com/HansBukerG/wm-back-end/src/utils"
 
 	"github.com/HansBukerG/wm-back-end/src/database"
 	"go.mongodb.org/mongo-driver/bson"
@@ -18,6 +19,12 @@ func ReadById(id int) (model.Product,error) {
 	var product model.Product
 	err := collection.FindOne(ctx,filter).Decode(&product)
 	return product, err
+}
+
+func ChannelReadByString(field string, search string,channel chan model.Products, errChan chan error){
+	products,err := ReadByString(field,search)
+	channel <- products
+	errChan <- err
 }
 
 func ReadByString(field string,search string) (model.Products,error){

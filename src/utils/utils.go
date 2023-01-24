@@ -1,6 +1,10 @@
 package utils
 
-import model "github.com/HansBukerG/wm-back-end/src/models"
+import (
+	"log"
+
+	model "github.com/HansBukerG/wm-back-end/src/models"
+)
 
 func UnifySlices(brand, description model.Products) model.Products {
 	var products model.Products
@@ -51,8 +55,6 @@ func ApplyDiscount(products model.Products) model.Products {
 	return products
 }
 
-
-
 func EmptyProduct() *model.Product {
 	product := model.Product{
 		Id:          0,
@@ -63,4 +65,8 @@ func EmptyProduct() *model.Product {
 	}
 
 	return &product
+}
+
+func PrintSlice(slice model.Products) {
+	log.Printf("Collection with %d values!", len(slice))
 }

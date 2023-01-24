@@ -22,14 +22,18 @@ func TestReadById(t *testing.T){
 }
 
 func TestChannelReadByString(t *testing.T){
-	channelProducts := make(chan model.Products)
+	// channelProducts := make(chan model.Products)
 	brand, search := "brand", "asdf"
 	
-	go product_repository.ChannelReadByString(brand,search,channelProducts)
-	go product_repository.ChannelReadByString(brand,search,channelProducts)
-
+	productsByBrandChannel, errChannel := make(chan model.Products), make(chan error)
+	productsByDescriptionChannel, errChannel2 := make(chan model.Products), make(chan error)
+	go product_repository.ChannelReadByString(brand,search,9000000,productsByBrandChannel,errChannel)
+	go product_repository.ChannelReadByString(brand,search,9000000,productsByDescriptionChannel,errChannel2)
 	
-	productsByBrand,productsByDescription := <-channelProducts, <-channelProducts
+	// go product_repository.ChannelReadByString(brand,search,productsByBrandChannel,errChannel)
+	// go product_repository.ChannelReadByString(brand,search,productsByDescriptionChannel,errChannel2)
+	
+	productsByBrand,productsByDescription := <-productsByBrandChannel, <-productsByDescriptionChannel
 
 	t.Log("productsByBrand:")
 	utils.PrintSlice(productsByBrand)

@@ -14,26 +14,24 @@ import (
 var collection = database.GetCollection("products")
 var ctx = context.Background()
 
-func ReadById(id int) (model.Product,error) {
-	filter := bson.M{"id":id}
+func ReadById(id int) (model.Product, error) {
+	filter := bson.M{"id": id}
 	var product model.Product
-	err := collection.FindOne(ctx,filter).Decode(&product)
+	err := collection.FindOne(ctx, filter).Decode(&product)
 	return product, err
 }
 
-func ChannelReadByString(field string, search string,channel chan model.Products){
+func ChannelReadByString(field string, search string, size int, productsChan chan model.Products, errChan chan error) {
 	var products model.Products
-	// products,err := ReadByString(field,search)
-	products = append(products, utils.EmptyProduct())
-	products = append(products, utils.EmptyProduct())
-	products = append(products, utils.EmptyProduct())
-	products = append(products, utils.EmptyProduct())
-	products = append(products, utils.EmptyProduct())
-
-	channel <- products
+	var err error
+	for i := 0; i < size; i++ {
+		products = append(products, utils.EmptyProduct())
+	}
+	productsChan <- products
+	errChan <- err
 }
 
-func ReadByString(field string,search string) (model.Products,error){
+func ReadByString(field string, search string) (model.Products, error) {
 	var products model.Products
 
 	filter := bson.M{field: bson.M{"$regex": search, "$options": "im"}}

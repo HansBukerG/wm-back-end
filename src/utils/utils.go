@@ -67,8 +67,6 @@ func EmptyProduct() *model.Product {
 	return &product
 }
 
-func PrintSlice(slice model.Products){
-	for _, product := range slice{
-		log.Printf("product: id: %d, brand: %s, description: %s, image: %s, price: %d", product.Id, product.Brand, product.Description, product.Image, product.Price)
-	}
+func PrintSlice(slice model.Products) {
+	log.Printf("Collection with %d values!", len(slice))
 }

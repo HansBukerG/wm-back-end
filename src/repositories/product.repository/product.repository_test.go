@@ -3,7 +3,9 @@ package product_repository_test
 import (
 	"testing"
 
+	model "github.com/HansBukerG/wm-back-end/src/models"
 	product_repository "github.com/HansBukerG/wm-back-end/src/repositories/product.repository"
+	"github.com/HansBukerG/wm-back-end/src/utils"
 )
 
 func TestReadById(t *testing.T){
@@ -17,6 +19,24 @@ func TestReadById(t *testing.T){
 	}else{
 		t.Log("Success!")
 	}
+}
+
+func TestChannelReadByString(t *testing.T){
+	channelProducts := make(chan model.Products)
+	brand, search := "brand", "asdf"
+	
+	go product_repository.ChannelReadByString(brand,search,channelProducts)
+	go product_repository.ChannelReadByString(brand,search,channelProducts)
+
+	
+	productsByBrand,productsByDescription := <-channelProducts, <-channelProducts
+
+	t.Log("productsByBrand:")
+	utils.PrintSlice(productsByBrand)
+	t.Log("productsByDescription:")
+	utils.PrintSlice(productsByDescription)
+	
+	t.Log("Success!")
 }
 
 func TestReadByString(t *testing.T){

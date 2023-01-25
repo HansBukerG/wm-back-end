@@ -1,4 +1,4 @@
-# fly.toml file generated for back-data01 on 2023-01-23T19:51:35-03:00
+# fly.toml file generated for back-data01 on 2023-01-24T21:46:32-03:00
 
 app = "back-data01"
 kill_signal = "SIGINT"

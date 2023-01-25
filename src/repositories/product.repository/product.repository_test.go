@@ -109,3 +109,15 @@ func TestReadByString(t *testing.T){
 	t.Log("Success!")
 }
 
+func TestReadProducts(t *testing.T){
+
+	products,err:= product_repository.ReadProducts()
+
+	if err != nil {
+		t.Error("There is an error in call ReadProducts():" + err.Error())
+		t.Fail()
+	}
+	utils.PrintSlice(products)
+	t.Log("Success!")
+
+}

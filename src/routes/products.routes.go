@@ -7,4 +7,5 @@ import (
 
 var RegisterProductsRoutes = func(router *mux.Router) {
 	router.HandleFunc("/search/{searchString}", controller.GetProductByString).Methods("GET")
+	router.HandleFunc("/search/", controller.GetProductsDefault).Methods("GET")
 }

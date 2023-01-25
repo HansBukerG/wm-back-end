@@ -2,9 +2,21 @@ package product_service_test
 
 import (
 	"testing"
-	"github.com/HansBukerG/wm-back-end/src/repositories/services/product.service"
 
+	"github.com/HansBukerG/wm-back-end/src/repositories/services/product.service"
+	"github.com/HansBukerG/wm-back-end/src/utils"
 )
+
+func TestRead(t *testing.T)()  {
+	products,err := product_service.Read()
+
+	if err != nil {
+		t.Error("There is an error in call Read(): " + err.Error())
+		t.Fail()
+	}
+	utils.PrintSlice(products)
+	t.Log("Success!")
+}
 
 func TestSearchByString(t *testing.T){
 	/*
@@ -29,3 +41,4 @@ func TestSearchByString(t *testing.T){
 		t.Log("Success!")
 	}
 }
+

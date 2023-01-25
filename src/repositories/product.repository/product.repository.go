@@ -8,6 +8,7 @@ import (
 
 	"github.com/HansBukerG/wm-back-end/src/database"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	// "go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -47,4 +48,24 @@ func ReadByString(field string,search string) (model.Products,error){
 	}
 
 	return products, nil
+}
+
+func ReadProducts()(model.Products,error){
+	filter := bson.D{}
+	options:= options.Find().SetLimit(10).SetSkip(1)
+	var products model.Products
+	collectionRequest, err := collection.Find(ctx,filter,options)
+
+	if err != nil {
+		return nil, err
+	}
+	for collectionRequest.Next(ctx){
+		var product model.Product
+		err := collectionRequest.Decode(&product)
+		if err != nil {
+			return nil, err
+		}
+		products = append(products, &product)
+	}
+	return products,err;
 }

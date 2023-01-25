@@ -11,6 +11,17 @@ import (
 	model "github.com/HansBukerG/wm-back-end/src/models"
 )
 
+func Read()(model.Products,error){
+	products,err:= product_repository.ReadProducts()
+
+	if err != nil {
+		log.Printf("There is an error in call ReadProducts():" + err.Error())
+		return nil,err
+	}
+	utils.PrintSlice(products)
+	return products,err
+}
+
 func SearchByString(search string) (model.Products, error) {
 	var products model.Products
 	var product model.Product

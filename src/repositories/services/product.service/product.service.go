@@ -2,8 +2,6 @@ package product_service
 
 import (
 	"log"
-	"strconv"
-	"strings"
 
 	product_repository "github.com/HansBukerG/wm-back-end/src/repositories/product.repository"
 	"github.com/HansBukerG/wm-back-end/src/utils"
@@ -11,51 +9,30 @@ import (
 	model "github.com/HansBukerG/wm-back-end/src/models"
 )
 
-func Read()(model.Products,error){
-	products,err:= product_repository.ReadProducts()
+func Read() (model.Products, error) {
+	products, err := product_repository.ReadProducts()
 
 	if err != nil {
 		log.Printf("There is an error in call ReadProducts():" + err.Error())
-		return nil,err
-	}
-	utils.PrintSlice(products)
-	return products,err
-}
-
-func SearchByString(search string) (model.Products, error) {
-	var products model.Products
-	var product model.Product
-	var err error
-
-	if strings.Trim(search, " ") == "" {
 		return nil, err
 	}
-
-	id_int, err := strconv.Atoi(search)
-	if err == nil { //ITS A NUMBER
-		product, err = readById(id_int)
-		products = append(products, &product)
-	} else { // ITS NOT A NUMBER
-		if len(search) > 3 {
-			products, err = readByString(strings.ToLower(search))
-		} else {
-			return nil, err
-		}
-	}
-	if utils.IsPalindrome(search) {
-		products = utils.ApplyDiscount(products)
-	}
-
 	utils.PrintSlice(products)
 	return products, err
 }
 
-func readById(id int) (model.Product, error) {
+func ReadById(id int) (model.Products, error) {
+	var products model.Products
 	product, err := product_repository.ReadById(id)
-	return product, err
+	if err != nil {
+		log.Printf("Error in call ReadById(): " + err.Error())
+		return nil, err
+	} else {
+		products = append(products, &product)
+	}
+	return products, err
 }
 
-func readByString(search string) (model.Products, error) {
+func ReadByString(search string) (model.Products, error) {
 
 	var field string
 	var field2 string

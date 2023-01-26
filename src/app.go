@@ -29,5 +29,4 @@ func App_init() {
 	log.Println("Rest ready to listen!")
 	log.Fatal(http.ListenAndServe(":"+httpPort, handler))
 	http.Handle("/", route)
-
 }

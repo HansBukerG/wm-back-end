@@ -1,6 +1,6 @@
-# fly.toml file generated for hansbukerg-front-app on 2023-01-26T01:38:44-03:00
+# fly.toml file generated for back-data01 on 2023-01-26T14:39:33-03:00
 
-app = "hansbukerg-front-app"
+app = "back-data01"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []

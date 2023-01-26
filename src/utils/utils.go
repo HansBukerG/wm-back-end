@@ -2,6 +2,9 @@ package utils
 
 import (
 	"log"
+	"net/http"
+	"strconv"
+	"strings"
 
 	model "github.com/HansBukerG/wm-back-end/src/models"
 )
@@ -55,6 +58,13 @@ func ApplyDiscount(products model.Products) model.Products {
 	return products
 }
 
+// func ApplyDiscountToProduct(product *model.Product) *model.Product{
+// 	product.Discount_percentaje = 50
+// 	product.Original_price = product.Price
+// 	product.Price = product.Price / 2
+// 	return product
+// }
+
 func EmptyProduct() *model.Product {
 	product := model.Product{
 		Id:          0,
@@ -69,4 +79,34 @@ func EmptyProduct() *model.Product {
 
 func PrintSlice(slice model.Products) {
 	log.Printf("Collection with %d values!", len(slice))
+}
+
+func CheckProducts(products model.Products, err error)(model.Products,int){
+	var status int
+	if err != nil {
+		log.Printf("There is an error in call: " + err.Error())
+		status = http.StatusBadRequest
+		return nil, status
+	}
+	if len(products) == 0 {
+		log.Printf("Return with 0 data.")
+		status = http.StatusNoContent
+		return nil, status
+	} 
+	status = http.StatusAccepted
+	return products,status
+}
+
+func CheckValue(search string)(int){
+	_, err := strconv.Atoi(search)
+	search = strings.Trim(search, " ")
+	if err == nil { //ITS A NUMBER
+		return 1
+	}else{ // NOT A NUMBER
+		if len(search) > 3 { 
+			return 2
+		}else{ // Dont accomplish the requeriments
+			return 0
+		}
+	}
 }

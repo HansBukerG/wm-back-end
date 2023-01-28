@@ -58,13 +58,6 @@ func ApplyDiscount(products model.Products) model.Products {
 	return products
 }
 
-// func ApplyDiscountToProduct(product *model.Product) *model.Product{
-// 	product.Discount_percentaje = 50
-// 	product.Original_price = product.Price
-// 	product.Price = product.Price / 2
-// 	return product
-// }
-
 func EmptyProduct() *model.Product {
 	product := model.Product{
 		Id:          0,

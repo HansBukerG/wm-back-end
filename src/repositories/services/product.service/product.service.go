@@ -39,13 +39,12 @@ func ReadByString(search string) (model.Products, error) {
 
 	var products model.Products
 	var err error
-	// channelProducts := make(chan model.Products)
 
 	for _, filter := range substrings {
 		channelProducts := make(chan model.Products)
 		errChan := make(chan error)
 
-		go product_repository.ChannelReadByStringTwo(filter, channelProducts, errChan)
+		go product_repository.ChannelReadByString(filter, channelProducts, errChan)
 		products = utils.UnifySlices(products, <-channelProducts)
 		err = <-errChan
 	}

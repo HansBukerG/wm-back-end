@@ -2,13 +2,14 @@ package product_repository
 
 import (
 	"context"
-	
+	"log"
+
 	model "github.com/HansBukerG/wm-back-end/src/models"
+	"github.com/HansBukerG/wm-back-end/src/utils"
 
 	"github.com/HansBukerG/wm-back-end/src/database"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
-
 )
 
 var collection = database.GetCollection("products")
@@ -21,49 +22,15 @@ func ReadById(id int) (model.Product, error) {
 	return product, err
 }
 
-func ChannelReadByString(field string, search string, channel chan model.Products, errChan chan error) {
-	products, err := ReadByString(field, search)
-	channel <- products
-	errChan <- err
-}
-func ChannelReadByStringTwo(search string, channel chan model.Products, errChan chan error) {
-	products, err := ReadByStringTwo(search)
+func ChannelReadByString(search string, channel chan model.Products, errChan chan error) {
+	products, err := ReadByString(search)
 	channel <- products
 	errChan <- err
 	close(channel)
 	close(errChan)
 }
 
-func ReadByString(field string, search string) (model.Products, error) {
-	var products model.Products
-
-	filter := bson.D{
-		{Key: "$or", Value: []interface{}{
-			bson.M{"brand": bson.M{"$regex": search, "$options": "im"}},
-			bson.M{"description": bson.M{"$regex": search, "$options": "im"}},
-		},
-		}}
-
-	productList, err := collection.Find(ctx, filter)
-
-	if err != nil {
-
-		return nil, err
-	}
-
-	for productList.Next(ctx) {
-		var product model.Product
-		err = productList.Decode(&product)
-		if err != nil {
-			return nil, err
-		}
-		products = append(products, &product)
-	}
-
-	return products, nil
-}
-
-func ReadByStringTwo(search string) (model.Products, error) {
+func ReadByString(search string) (model.Products, error) {
 	var products model.Products
 
 	filter := bson.D{
@@ -87,6 +54,11 @@ func ReadByStringTwo(search string) (model.Products, error) {
 			return nil, decode
 		}
 		products = append(products, &product)
+	}
+
+	if utils.IsPalindrome(search) {
+		log.Printf("Discount applied to products!")
+		products = utils.ApplyDiscount(products)
 	}
 
 	return products, nil

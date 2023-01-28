@@ -2,7 +2,7 @@ package controller
 
 import (
 	"encoding/json"
-	"log"
+	// "log"
 
 	// "log"
 	"net/http"
@@ -40,11 +40,6 @@ func GetProductByString(writer http.ResponseWriter, request *http.Request) {
 		products, err = product_service.ReadByString(searchString)
 	case 0:
 		products, err = nil, nil
-	}
-
-	if utils.IsPalindrome(searchString) {
-		log.Printf("Discount applied to products!")
-		products = utils.ApplyDiscount(products)
 	}
 
 	utils.PrintSlice(products)

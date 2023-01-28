@@ -130,3 +130,9 @@ func TestEmptyProduct(t *testing.T) {
 	fmt.Printf("empty product: %s ", product.Description)
 	t.Log("Success!")
 }
+func TestCheckValue(t *testing.T) {
+	product := utils.EmptyProduct()
+	fmt.Printf("empty product: %s ", product.Description)
+	t.Log("Success!")
+}
+

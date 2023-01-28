@@ -2,7 +2,6 @@ package product_service
 
 import (
 	"log"
-	"strings"
 
 	product_repository "github.com/HansBukerG/wm-back-end/src/repositories/product.repository"
 	"github.com/HansBukerG/wm-back-end/src/utils"
@@ -33,21 +32,15 @@ func ReadById(id int) (model.Products, error) {
 	return products, err
 }
 
-func ReadByString(search string) (model.Products, error) {
-
-	substrings := strings.Fields(search)
-
+func ReadByString(filter string) (model.Products, error) {
 	var products model.Products
 	var err error
 
-	for _, filter := range substrings {
-		channelProducts := make(chan model.Products)
-		errChan := make(chan error)
+	channelProducts, errChan := make(chan model.Products), make(chan error)
 
-		go product_repository.ChannelReadByString(filter, channelProducts, errChan)
-		products = utils.UnifySlices(products, <-channelProducts)
-		err = <-errChan
-	}
+	go product_repository.ChannelReadByString(filter, channelProducts, errChan)
+
+	products, err = <-channelProducts, <-errChan
 
 	if err != nil {
 		log.Printf("Error in query for products")
@@ -55,7 +48,8 @@ func ReadByString(search string) (model.Products, error) {
 	}
 	if len(products) == 0 {
 		log.Printf("Query has found 0 documents")
-		return nil, err
+		return nil, nil
 	}
+
 	return products, err
 }

@@ -23,9 +23,9 @@ func UnifySlices(brand, description model.Products) model.Products {
 	for _, item := range description {
 		if !Find(item, products) {
 			products = append(products, item)
-		}else{
+		} else {
 			if hasDiscount(item) {
-				products = removeItem(products,item.Id)
+				products = removeItem(products, item.Id)
 				products = append(products, item)
 			}
 		}
@@ -33,16 +33,16 @@ func UnifySlices(brand, description model.Products) model.Products {
 	return products
 }
 
-func hasDiscount(product *model.Product)(bool){
+func hasDiscount(product *model.Product) bool {
 	if product.Original_price > 0 {
 		return true
 	}
 	return false
 }
 
-func removeItem(slice model.Products,id int)(model.Products){
+func removeItem(slice model.Products, id int) model.Products {
 	for index, value := range slice {
-		if value.Id == id{
+		if value.Id == id {
 			slice = append(slice[:index], slice[index+1:]...)
 			break
 		}
@@ -121,7 +121,7 @@ func CheckValue(search string) int {
 	if err == nil { //ITS A NUMBER
 		return 1
 	} else { // NOT A NUMBER
-		if len(search) > 3 {
+		if len(search) >= 3 {
 			return 2
 		} else { // Dont accomplish the requeriments
 			return 0

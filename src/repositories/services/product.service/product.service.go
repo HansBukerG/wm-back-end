@@ -32,34 +32,24 @@ func ReadById(id int) (model.Products, error) {
 	return products, err
 }
 
-func ReadByString(search string) (model.Products, error) {
-
-	var field string
-	var field2 string
-
-	field = "brand"
-	field2 = "description"
-
-	channelProductsByBrand, errChan := make(chan model.Products), make(chan error)
-	channelProductsByDescription, errChan2 := make(chan model.Products), make(chan error)
+func ReadByString(filter string) (model.Products, error) {
 	var products model.Products
 	var err error
 
-	go product_repository.ChannelReadByString(field, search, channelProductsByBrand, errChan)
-	go product_repository.ChannelReadByString(field2, search, channelProductsByDescription, errChan2)
+	channelProducts, errChan := make(chan model.Products), make(chan error)
 
-	productsByBrand, errBrand := <-channelProductsByBrand, <-errChan
-	productsByDescription, errDescription := <-channelProductsByDescription, <-errChan2
+	go product_repository.ChannelReadByString(filter, channelProducts, errChan)
 
-	if errBrand != nil {
-		log.Printf("Error in call ChannelReadByString() for Brand: " + errBrand.Error())
-		return nil, errBrand
+	products, err = <-channelProducts, <-errChan
+
+	if err != nil {
+		log.Printf("Error in query for products")
+		return nil, err
 	}
-	if errDescription != nil {
-		log.Printf("Error in call ChannelReadByString() for Description: " + errDescription.Error())
-		return nil, errDescription
+	if len(products) == 0 {
+		log.Printf("Query has found 0 documents")
+		return nil, nil
 	}
-	products = utils.UnifySlices(productsByBrand, productsByDescription)
 
 	return products, err
 }

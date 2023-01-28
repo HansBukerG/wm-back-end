@@ -24,8 +24,8 @@ func UnifySlices(brand, description model.Products) model.Products {
 		if !Find(item, products) {
 			products = append(products, item)
 		} else {
-			if hasDiscount(item) {
-				products = removeItem(products, item.Id)
+			if HasDiscount(item) {
+				products = RemoveItem(products, item.Id)
 				products = append(products, item)
 			}
 		}
@@ -33,14 +33,14 @@ func UnifySlices(brand, description model.Products) model.Products {
 	return products
 }
 
-func hasDiscount(product *model.Product) bool {
+func HasDiscount(product *model.Product) bool {
 	if product.Original_price > 0 {
 		return true
 	}
 	return false
 }
 
-func removeItem(slice model.Products, id int) model.Products {
+func RemoveItem(slice model.Products, id int) model.Products {
 	for index, value := range slice {
 		if value.Id == id {
 			slice = append(slice[:index], slice[index+1:]...)

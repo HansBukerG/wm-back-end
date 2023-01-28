@@ -36,7 +36,7 @@ func TestReadById(t *testing.T){
 	}
 }
 
-func TestSearchByString(t *testing.T){
+func TestReadByString(t *testing.T){
 	/*
 	Example filters
 	*/

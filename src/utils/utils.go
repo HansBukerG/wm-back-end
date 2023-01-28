@@ -78,10 +78,14 @@ func EmptyProduct() *model.Product {
 }
 
 func PrintSlice(slice model.Products) {
-	log.Printf("Collection with %d values!", len(slice))
+	//uncomment for detailed info
+	// for _, product := range slice {
+	// 	log.Printf("Product with id: %d ", product.Id)
+	// }
+	log.Printf("Collection returned with %d values!", len(slice))
 }
 
-func CheckProducts(products model.Products, err error)(model.Products,int){
+func CheckProducts(products model.Products, err error) (model.Products, int) {
 	var status int
 	if err != nil {
 		log.Printf("There is an error in call: " + err.Error())
@@ -92,20 +96,20 @@ func CheckProducts(products model.Products, err error)(model.Products,int){
 		log.Printf("Return with 0 data.")
 		status = http.StatusNoContent
 		return nil, status
-	} 
+	}
 	status = http.StatusAccepted
-	return products,status
+	return products, status
 }
 
-func CheckValue(search string)(int){
+func CheckValue(search string) int {
 	_, err := strconv.Atoi(search)
 	search = strings.Trim(search, " ")
 	if err == nil { //ITS A NUMBER
 		return 1
-	}else{ // NOT A NUMBER
-		if len(search) > 3 { 
+	} else { // NOT A NUMBER
+		if len(search) > 3 {
 			return 2
-		}else{ // Dont accomplish the requeriments
+		} else { // Dont accomplish the requeriments
 			return 0
 		}
 	}

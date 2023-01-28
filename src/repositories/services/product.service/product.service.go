@@ -2,6 +2,7 @@ package product_service
 
 import (
 	"log"
+	"strings"
 
 	product_repository "github.com/HansBukerG/wm-back-end/src/repositories/product.repository"
 	"github.com/HansBukerG/wm-back-end/src/utils"
@@ -34,32 +35,28 @@ func ReadById(id int) (model.Products, error) {
 
 func ReadByString(search string) (model.Products, error) {
 
-	var field string
-	var field2 string
+	substrings := strings.Fields(search)
 
-	field = "brand"
-	field2 = "description"
-
-	channelProductsByBrand, errChan := make(chan model.Products), make(chan error)
-	channelProductsByDescription, errChan2 := make(chan model.Products), make(chan error)
 	var products model.Products
 	var err error
+	// channelProducts := make(chan model.Products)
 
-	go product_repository.ChannelReadByString(field, search, channelProductsByBrand, errChan)
-	go product_repository.ChannelReadByString(field2, search, channelProductsByDescription, errChan2)
+	for _, filter := range substrings {
+		channelProducts := make(chan model.Products)
+		errChan := make(chan error)
 
-	productsByBrand, errBrand := <-channelProductsByBrand, <-errChan
-	productsByDescription, errDescription := <-channelProductsByDescription, <-errChan2
-
-	if errBrand != nil {
-		log.Printf("Error in call ChannelReadByString() for Brand: " + errBrand.Error())
-		return nil, errBrand
+		go product_repository.ChannelReadByStringTwo(filter, channelProducts, errChan)
+		products = utils.UnifySlices(products, <-channelProducts)
+		err = <-errChan
 	}
-	if errDescription != nil {
-		log.Printf("Error in call ChannelReadByString() for Description: " + errDescription.Error())
-		return nil, errDescription
-	}
-	products = utils.UnifySlices(productsByBrand, productsByDescription)
 
+	if err != nil {
+		log.Printf("Error in query for products")
+		return nil, err
+	}
+	if len(products) == 0 {
+		log.Printf("Query has found 0 documents")
+		return nil, err
+	}
 	return products, err
 }

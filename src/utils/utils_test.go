@@ -9,39 +9,40 @@ import (
 	"github.com/HansBukerG/wm-back-end/src/utils"
 )
 
-func TestUnifySlices(t *testing.T) {
-	var slice_A model.Products
-	var slice_B model.Products
-	var slice_C model.Products
+var slice_A model.Products
+var slice_B model.Products
+var slice_C model.Products
 
-	product_A := model.Product{
-		Id:          1,
-		Brand:       "test",
-		Description: "test",
-		Image:       "test",
-		Price:       10000,
-	}
-	product_B := model.Product{
-		Id:          2,
-		Brand:       "test",
-		Description: "test",
-		Image:       "test",
-		Price:       10000,
-	}
-	product_C := model.Product{
-		Id:          3,
-		Brand:       "test",
-		Description: "test",
-		Image:       "test",
-		Price:       10000,
-	}
-	product_D := model.Product{
-		Id:          3,
-		Brand:       "test",
-		Description: "test",
-		Image:       "test",
-		Price:       10000,
-	}
+var product_A = model.Product{
+	Id:          1,
+	Brand:       "test",
+	Description: "test",
+	Image:       "test",
+	Price:       10000,
+}
+var product_B = model.Product{
+	Id:          2,
+	Brand:       "test",
+	Description: "test",
+	Image:       "test",
+	Price:       10000,
+}
+var product_C = model.Product{
+	Id:          3,
+	Brand:       "test",
+	Description: "test",
+	Image:       "test",
+	Price:       10000,
+}
+var product_D = model.Product{
+	Id:          4,
+	Brand:       "test",
+	Description: "test",
+	Image:       "test",
+	Price:       10000,
+}
+
+func TestUnifySlices(t *testing.T) {
 
 	slice_A = append(slice_A, &product_A, &product_B)
 	slice_B = append(slice_B, &product_C, &product_D)
@@ -65,7 +66,6 @@ func TestIsPalindrome(t *testing.T) {
 
 }
 func TestApplyDiscount(t *testing.T) {
-	var slice_A model.Products
 	product := model.Product{
 		Id:          3,
 		Brand:       "test",
@@ -84,37 +84,6 @@ func TestApplyDiscount(t *testing.T) {
 }
 
 func TestFind(t *testing.T) {
-	var slice_A model.Products
-
-	product_A := model.Product{
-		Id:          1,
-		Brand:       "test",
-		Description: "test",
-		Image:       "test",
-		Price:       10000,
-	}
-	product_B := model.Product{
-		Id:          2,
-		Brand:       "test",
-		Description: "test",
-		Image:       "test",
-		Price:       10000,
-	}
-	product_C := model.Product{
-		Id:          3,
-		Brand:       "test",
-		Description: "test",
-		Image:       "test",
-		Price:       10000,
-	}
-	product_D := model.Product{
-		Id:          4,
-		Brand:       "test",
-		Description: "test",
-		Image:       "test",
-		Price:       10000,
-	}
-
 	slice_A = append(slice_A, &product_A, &product_B, &product_C, &product_D)
 
 	if utils.Find(&product_C, slice_A) {
@@ -141,37 +110,6 @@ func TestCheckValue(t *testing.T) {
 }
 
 func TestAplyDiscount(t *testing.T) {
-	var slice_A model.Products
-
-	product_A := model.Product{
-		Id:          1,
-		Brand:       "test",
-		Description: "test",
-		Image:       "test",
-		Price:       10000,
-	}
-	product_B := model.Product{
-		Id:          2,
-		Brand:       "test",
-		Description: "test",
-		Image:       "test",
-		Price:       10000,
-	}
-	product_C := model.Product{
-		Id:          3,
-		Brand:       "test",
-		Description: "test",
-		Image:       "test",
-		Price:       10000,
-	}
-	product_D := model.Product{
-		Id:          4,
-		Brand:       "test",
-		Description: "test",
-		Image:       "test",
-		Price:       10000,
-	}
-
 	slice_A = append(slice_A, &product_A, &product_B, &product_C, &product_D)
 
 	slice_B := utils.ApplyDiscount(slice_A)
@@ -179,36 +117,6 @@ func TestAplyDiscount(t *testing.T) {
 	utils.PrintSlice(slice_B)
 }
 func TestRemoveItem(t *testing.T) {
-	var slice_A model.Products
-
-	product_A := model.Product{
-		Id:          1,
-		Brand:       "test",
-		Description: "test",
-		Image:       "test",
-		Price:       10000,
-	}
-	product_B := model.Product{
-		Id:          2,
-		Brand:       "test",
-		Description: "test",
-		Image:       "test",
-		Price:       10000,
-	}
-	product_C := model.Product{
-		Id:          3,
-		Brand:       "test",
-		Description: "test",
-		Image:       "test",
-		Price:       10000,
-	}
-	product_D := model.Product{
-		Id:          4,
-		Brand:       "test",
-		Description: "test",
-		Image:       "test",
-		Price:       10000,
-	}
 
 	slice_A = append(slice_A, &product_A, &product_B, &product_C, &product_D)
 
@@ -217,37 +125,6 @@ func TestRemoveItem(t *testing.T) {
 	utils.PrintSlice(slice_B)
 }
 func TestHasDiscount(t *testing.T) {
-	var slice_A model.Products
-
-	product_A := model.Product{
-		Id:          1,
-		Brand:       "test",
-		Description: "test",
-		Image:       "test",
-		Price:       10000,
-	}
-	product_B := model.Product{
-		Id:          2,
-		Brand:       "test",
-		Description: "test",
-		Image:       "test",
-		Price:       10000,
-	}
-	product_C := model.Product{
-		Id:          3,
-		Brand:       "test",
-		Description: "test",
-		Image:       "test",
-		Price:       10000,
-	}
-	product_D := model.Product{
-		Id:          4,
-		Brand:       "test",
-		Description: "test",
-		Image:       "test",
-		Price:       10000,
-	}
-
 	slice_A = append(slice_A, &product_A, &product_B, &product_C, &product_D)
 
 	for _, v := range slice_A {

@@ -2,7 +2,6 @@ package product_repository
 
 import (
 	"context"
-	"log"
 
 	model "github.com/HansBukerG/wm-back-end/src/models"
 	"github.com/HansBukerG/wm-back-end/src/utils"
@@ -19,6 +18,9 @@ func ReadById(id int) (model.Product, error) {
 	filter := bson.M{"id": id}
 	var product model.Product
 	err := collection.FindOne(ctx, filter).Decode(&product)
+	if utils.LookForPalindromes(&product) {
+		utils.ApplyDiscountToProduct(&product)
+	}
 	return product, err
 }
 
@@ -53,12 +55,10 @@ func ReadByString(search string) (model.Products, error) {
 		if err != nil {
 			return nil, decode
 		}
+		if utils.LookForPalindromes(&product) {
+			utils.ApplyDiscountToProduct(&product)
+		}
 		products = append(products, &product)
-	}
-
-	if utils.IsPalindrome(search) {
-		log.Printf("Discount applied to products!")
-		products = utils.ApplyDiscount(products)
 	}
 
 	return products, nil
@@ -78,6 +78,9 @@ func ReadProducts() (model.Products, error) {
 		err := collectionRequest.Decode(&product)
 		if err != nil {
 			return nil, err
+		}
+		if utils.LookForPalindromes(&product) {
+			utils.ApplyDiscountToProduct(&product)
 		}
 		products = append(products, &product)
 	}

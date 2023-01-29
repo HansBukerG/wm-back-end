@@ -1,6 +1,10 @@
 package model
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"sort"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 type Product struct {
 	Id_object           primitive.ObjectID `bson:"_id,omitempty"`
@@ -15,3 +19,9 @@ type Product struct {
 
 // type Product *product
 type Products []*Product
+
+func(products Products) SortSlice(){
+	sort.Slice(products, func(i, j int) bool {
+		return products[i].Discount_percentaje > products[j].Discount_percentaje
+	})
+}

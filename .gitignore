@@ -2,3 +2,6 @@
 main.exe
 fly.toml
 Makefile.dev
+docker-compose.yml
+.dockerignore
+main.exe

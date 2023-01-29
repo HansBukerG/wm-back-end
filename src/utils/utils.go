@@ -60,6 +60,22 @@ func Find(product *model.Product, products model.Products) bool {
 	return false
 }
 
+func LookForPalindromes(product *model.Product) bool {
+
+	if IsPalindrome(strconv.Itoa(product.Id)) {
+		return true
+	} else {
+		if check_filter(product.Brand) {
+			return true
+		} else {
+			if check_filter(product.Description) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
 func IsPalindrome(str string) bool {
 	for i := 0; i < len(str); i++ {
 		j := len(str) - 1 - i
@@ -70,6 +86,16 @@ func IsPalindrome(str string) bool {
 	return true
 }
 
+func check_filter(text string) bool {
+	description_fields := strings.Fields(text)
+	for _, value := range description_fields {
+		if IsPalindrome(value) {
+			return true
+		}
+	}
+	return false
+}
+
 func ApplyDiscount(products model.Products) model.Products {
 	for _, item := range products {
 		item.Discount_percentaje = 50
@@ -77,6 +103,12 @@ func ApplyDiscount(products model.Products) model.Products {
 		item.Price = item.Price / 2
 	}
 	return products
+}
+
+func ApplyDiscountToProduct(product *model.Product) {
+	product.Discount_percentaje = 50
+	product.Original_price = product.Price
+	product.Price = product.Price / 2
 }
 
 func EmptyProduct() *model.Product {

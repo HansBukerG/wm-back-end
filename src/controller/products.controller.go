@@ -2,9 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	// "log"
-
-	// "log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -19,13 +16,16 @@ func GetProductsDefault(writer http.ResponseWriter, request *http.Request) {
 	var status int
 	products, err := product_service.Read()
 	RegisterFound, status := utils.CheckProducts(products, err)
+
+	RegisterFound.SortSlice()
+
 	response, _ := json.Marshal(RegisterFound)
 	executeResponse(writer, status, response)
 }
 
 func GetProductByString(writer http.ResponseWriter, request *http.Request) {
 	varsRequest := mux.Vars(request)
-	filter_value := strings.Trim(varsRequest["searchString"]," ")
+	filter_value := strings.Trim(varsRequest["searchString"], " ")
 	var products_response model.Products
 	var err error
 
@@ -45,8 +45,10 @@ func GetProductByString(writer http.ResponseWriter, request *http.Request) {
 			product_range, err = nil, nil
 		}
 
-		products_response = utils.UnifySlices(products_response,product_range)
+		products_response = utils.UnifySlices(products_response, product_range)
 	}
+
+	products_response.SortSlice()
 
 	utils.PrintSlice(products_response)
 	RegisterFound, status := utils.CheckProducts(products_response, err)

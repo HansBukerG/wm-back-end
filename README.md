@@ -78,8 +78,6 @@ Github Project:
 
   - [https://sonarcloud.io/project/overview?id=HansBukerG_wm-back-end](https://sonarcloud.io/project/overview?id=HansBukerG_wm-back-end)
 
- 
-
 
 
 ## Authors

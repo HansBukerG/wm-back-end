@@ -7,7 +7,7 @@ import (
 	"github.com/HansBukerG/wm-back-end/src/utils"
 )
 
-var success_message = "Success!"
+var successMessage = "Success!"
 
 func TestRead(t *testing.T) {
 	products, err := product_service.Read()
@@ -17,7 +17,7 @@ func TestRead(t *testing.T) {
 		t.Fail()
 	}
 	utils.PrintSlice(products)
-	t.Log(success_message)
+	t.Log(successMessage)
 }
 
 func TestReadById(t *testing.T) {
@@ -34,7 +34,7 @@ func TestReadById(t *testing.T) {
 		t.Error("Query has 0 values inside")
 		t.Fail()
 	} else {
-		t.Log(success_message)
+		t.Log(successMessage)
 	}
 }
 
@@ -58,6 +58,6 @@ func TestReadByString(t *testing.T) {
 		t.Error("Query has 0 values inside")
 		t.Fail()
 	} else {
-		t.Log(success_message)
+		t.Log(successMessage)
 	}
 }

@@ -11,7 +11,7 @@ import (
 	"github.com/HansBukerG/wm-back-end/src/utils"
 )
 
-var success_message = "Success!"
+var successMessage = "Success!"
 
 func TestReadById(t *testing.T) {
 	test_id := 123
@@ -22,7 +22,7 @@ func TestReadById(t *testing.T) {
 		t.Error("Error in query for products")
 		t.Fail()
 	} else {
-		t.Log(success_message)
+		t.Log(successMessage)
 	}
 }
 
@@ -51,7 +51,7 @@ func TestReadByString(t *testing.T) {
 		t.Fail()
 	}
 	utils.PrintSlice(products)
-	t.Log(success_message)
+	t.Log(successMessage)
 }
 
 func TestReadProducts(t *testing.T) {
@@ -62,5 +62,5 @@ func TestReadProducts(t *testing.T) {
 		t.Fail()
 	}
 	utils.PrintSlice(products)
-	t.Log(success_message)
+	t.Log(successMessage)
 }

@@ -25,35 +25,35 @@ func GetProductsDefault(writer http.ResponseWriter, request *http.Request) {
 
 func GetProductByString(writer http.ResponseWriter, request *http.Request) {
 	varsRequest := mux.Vars(request)
-	filter_value := strings.Trim(varsRequest["searchString"], " ")
-	var products_response model.Products
+	filterValue := strings.Trim(varsRequest["searchString"], " ")
+	var productsResponse model.Products
 	var err error
 
-	filter_value = strings.ToLower(filter_value)
-	filter_list := strings.Fields(filter_value)
+	filterValue = strings.ToLower(filterValue)
+	filterList := strings.Fields(filterValue)
 
-	for _, filter_item := range filter_list {
-		var product_range model.Products
+	for _, filter_item := range filterList {
+		var productRange model.Products
 
 		switch checkValue := utils.CheckValue(filter_item); checkValue {
 		case 1:
 			id_int, _ := strconv.Atoi(filter_item)
-			product_range, err = product_service.ReadById(id_int)
+			productRange, err = product_service.ReadById(id_int)
 		case 2:
-			product_range, err = product_service.ReadByString(filter_item)
+			productRange, err = product_service.ReadByString(filter_item)
 		case 0:
-			product_range, err = nil, nil
+			productRange, err = nil, nil
 		}
 
-		products_response = utils.UnifySlices(products_response, product_range)
+		productsResponse = utils.UnifySlices(productsResponse, productRange)
 	}
 
 
 	
-	products_response.SortSlice()
+	productsResponse.SortSlice()
 
-	utils.PrintSlice(products_response)
-	RegisterFound, status := utils.CheckProducts(products_response, err)
+	utils.PrintSlice(productsResponse)
+	RegisterFound, status := utils.CheckProducts(productsResponse, err)
 
 	response, _ := json.Marshal(RegisterFound)
 	executeResponse(writer, status, response)

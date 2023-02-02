@@ -42,7 +42,7 @@ var product_D = model.Product{
 	Price:       10000,
 }
 
-var success_message = "Success!"
+var successMessage = "Success!"
 
 func TestUnifySlices(t *testing.T) {
 
@@ -53,7 +53,7 @@ func TestUnifySlices(t *testing.T) {
 	for _, product := range slice_C {
 		fmt.Printf("t: id: %v,brand: %v,description: %v,price: %v\n", product.Id, product.Brand, product.Description, product.Price)
 	}
-	t.Log(success_message)
+	t.Log(successMessage)
 }
 func TestIsPalindrome(t *testing.T) {
 
@@ -64,7 +64,7 @@ func TestIsPalindrome(t *testing.T) {
 	} else {
 		fmt.Printf("filter: is not palindrome")
 	}
-	t.Log(success_message)
+	t.Log(successMessage)
 
 }
 func TestApplyDiscount(t *testing.T) {
@@ -82,7 +82,7 @@ func TestApplyDiscount(t *testing.T) {
 	for _, product := range slice_A {
 		fmt.Printf("t: id: %v,brand: %v,description: %v,price: %v\n", product.Id, product.Brand, product.Description, product.Price)
 	}
-	t.Log(success_message)
+	t.Log(successMessage)
 }
 
 func TestFind(t *testing.T) {
@@ -93,14 +93,14 @@ func TestFind(t *testing.T) {
 	} else {
 		fmt.Printf("parameter not found")
 	}
-	t.Log(success_message)
+	t.Log(successMessage)
 
 }
 
 func TestEmptyProduct(t *testing.T) {
 	product := utils.EmptyProduct()
 	fmt.Printf("empty product: %s ", product.Description)
-	t.Log(success_message)
+	t.Log(successMessage)
 }
 
 func TestCheckValue(t *testing.T) {
@@ -108,7 +108,7 @@ func TestCheckValue(t *testing.T) {
 
 	log.Printf("value of CheckValue(): %d ", utils.CheckValue(filter))
 
-	t.Log(success_message)
+	t.Log(successMessage)
 }
 
 func TestAplyDiscount(t *testing.T) {

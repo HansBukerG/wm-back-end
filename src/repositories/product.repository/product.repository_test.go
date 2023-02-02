@@ -11,6 +11,8 @@ import (
 	"github.com/HansBukerG/wm-back-end/src/utils"
 )
 
+var success_message = "Success!"
+
 func TestReadById(t *testing.T) {
 	test_id := 123
 
@@ -20,7 +22,7 @@ func TestReadById(t *testing.T) {
 		t.Error("Error in query for products")
 		t.Fail()
 	} else {
-		t.Log("Success!")
+		t.Log(success_message)
 	}
 }
 
@@ -36,8 +38,8 @@ func TestReadByString(t *testing.T) {
 		channelProducts := make(chan model.Products)
 		errChan := make(chan error)
 		go product_repository.ChannelReadByString(filter, channelProducts, errChan)
-		products = utils.UnifySlices(products,<-channelProducts)
-		err = <- errChan
+		products = utils.UnifySlices(products, <-channelProducts)
+		err = <-errChan
 	}
 
 	if err != nil {
@@ -49,7 +51,7 @@ func TestReadByString(t *testing.T) {
 		t.Fail()
 	}
 	utils.PrintSlice(products)
-	t.Log("Success!")
+	t.Log(success_message)
 }
 
 func TestReadProducts(t *testing.T) {
@@ -60,5 +62,5 @@ func TestReadProducts(t *testing.T) {
 		t.Fail()
 	}
 	utils.PrintSlice(products)
-	t.Log("Success!")
+	t.Log(success_message)
 }

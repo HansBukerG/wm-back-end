@@ -1,0 +1,14 @@
+image-build:
+docker build --tag wm-back-end .
+
+image-push:
+docker push hansbukerg/wm-back-end
+
+fly-create:
+flyctl launch
+
+fly-push:
+flyctl deploy
+
+image-run:
+docker run -d -p 8080:8080 --name wm-back-end wm-back-end

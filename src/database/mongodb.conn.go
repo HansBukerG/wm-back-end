@@ -23,6 +23,7 @@ func GetCollection(collection string) *mongo.Collection {
 	client, err := mongo.NewClient(options.Client().ApplyURI(uri))
 
 	if err != nil {
+		// retry coonnect
 		log.Fatal("Error in connection!: ")
 		panic(err.Error())
 	}

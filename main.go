@@ -20,5 +20,5 @@ func main() {
 	  log.Fatal("Error loading .env file")
 	}
 	
-	app.App_init()
+	app.Init()
 }

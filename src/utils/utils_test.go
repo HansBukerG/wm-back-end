@@ -135,3 +135,7 @@ func TestHasDiscount(t *testing.T) {
 		}
 	}
 }
+
+// func TectLookForPalindromes(t *testing.T){
+
+// }

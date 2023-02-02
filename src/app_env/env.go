@@ -13,9 +13,9 @@ func GetEnv(variable string) string {
 		log.Fatal("Error loading .env file")
 	}
 
-	env_variable := os.Getenv(variable)
-	if env_variable == "" {
+	envVariable := os.Getenv(variable)
+	if envVariable == "" {
 		log.Fatal("Should define .env " + variable)
 	}
-	return env_variable
+	return envVariable
 }

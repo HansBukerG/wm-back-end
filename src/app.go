@@ -10,7 +10,7 @@ import (
 	"github.com/rs/cors"
 )
 
-func App_init() {
+func Init() {
 
 	route := mux.NewRouter()
 

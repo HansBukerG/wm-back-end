@@ -48,6 +48,8 @@ func GetProductByString(writer http.ResponseWriter, request *http.Request) {
 		products_response = utils.UnifySlices(products_response, product_range)
 	}
 
+
+	
 	products_response.SortSlice()
 
 	utils.PrintSlice(products_response)

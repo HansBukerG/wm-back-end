@@ -2,6 +2,7 @@ package product_repository
 
 import (
 	"context"
+	"net/http"
 
 	model "github.com/HansBukerG/wm-back-end/src/models"
 	"github.com/HansBukerG/wm-back-end/src/utils"
@@ -14,17 +15,20 @@ import (
 var collection = database.GetCollection("products")
 var ctx = context.Background()
 
-func ReadById(id int) (model.Product, error) {
+func ReadById(id int) (model.Product, int) {
 	filter := bson.M{"id": id}
 	var product model.Product
 	err := collection.FindOne(ctx, filter).Decode(&product)
+	if err != nil {
+		return *product.SetEmptyProduct(), http.StatusNotFound
+	}
 	if utils.LookForPalindromes(&product) {
 		utils.ApplyDiscountToProduct(&product)
 	}
-	return product, err
+	return product, http.StatusAccepted
 }
 
-func ChannelReadByString(search string, channel chan model.Products, errChan chan error) {
+func ChannelReadByString(search string, channel chan model.Products, errChan chan int) {
 	products, err := ReadByString(search)
 	channel <- products
 	errChan <- err
@@ -32,7 +36,7 @@ func ChannelReadByString(search string, channel chan model.Products, errChan cha
 	close(errChan)
 }
 
-func ReadByString(search string) (model.Products, error) {
+func ReadByString(search string) (model.Products, int) {
 	var products model.Products
 
 	filter := bson.D{
@@ -41,48 +45,47 @@ func ReadByString(search string) (model.Products, error) {
 			bson.M{"description": bson.M{"$regex": search, "$options": "im"}},
 		},
 		}}
-
+	if len(search) == 0 {
+		return nil, http.StatusNotFound
+	}
 	productList, err := collection.Find(ctx, filter)
-
 	if err != nil {
-
-		return nil, err
+		return nil, http.StatusNotFound
 	}
 
 	for productList.Next(ctx) {
 		var product model.Product
 		decode := productList.Decode(&product)
-		if err != nil {
-			return nil, decode
+		if decode != nil {
+			return nil, http.StatusConflict
 		}
 		if utils.LookForPalindromes(&product) {
 			utils.ApplyDiscountToProduct(&product)
 		}
 		products = append(products, &product)
 	}
-
-	return products, nil
+	return products, http.StatusAccepted
 }
 
-func ReadProducts() (model.Products, error) {
+func ReadProducts() (model.Products, int) {
 	filter := bson.D{}
 	options := options.Find().SetLimit(10).SetSkip(1)
 	var products model.Products
 	collectionRequest, err := collection.Find(ctx, filter, options)
 
 	if err != nil {
-		return nil, err
+		return nil, http.StatusNotFound
 	}
 	for collectionRequest.Next(ctx) {
 		var product model.Product
 		err := collectionRequest.Decode(&product)
 		if err != nil {
-			return nil, err
+			return nil, http.StatusConflict
 		}
 		if utils.LookForPalindromes(&product) {
 			utils.ApplyDiscountToProduct(&product)
 		}
 		products = append(products, &product)
 	}
-	return products, err
+	return products, http.StatusAccepted
 }

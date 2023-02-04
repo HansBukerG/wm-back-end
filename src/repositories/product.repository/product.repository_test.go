@@ -86,9 +86,8 @@ func TestReadByString(t *testing.T) {
 func TestReadProducts(t *testing.T) {
 	products, err := product_repository.ReadProducts()
 
-	if err != nil {
-		t.Error("There is an error in call ReadProducts():" + err.Error())
-		t.Fail()
+	if err != http.StatusAccepted {
+		t.Errorf("Error in ReadProducts(), status: %d",err )
 	}
 	utils.PrintSlice(products)
 	t.Log(successMessage)

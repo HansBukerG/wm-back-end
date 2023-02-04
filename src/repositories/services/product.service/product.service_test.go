@@ -5,20 +5,16 @@ import (
 	"testing"
 
 	product_service "github.com/HansBukerG/wm-back-end/src/repositories/services/product.service"
-	"github.com/HansBukerG/wm-back-end/src/utils"
 )
 
 var successMessage = "Success!"
 
 func TestRead(t *testing.T) {
-	products, err := product_service.Read()
+	_, err := product_service.Read()
 
-	if err != nil {
-		t.Error("There is an error in call Read(): " + err.Error())
-		t.Fail()
+	if err != http.StatusAccepted {
+		t.Errorf("Error in Read(), status: %d ", err)
 	}
-	utils.PrintSlice(products)
-	t.Log(successMessage)
 }
 
 type dataFilterInt struct {

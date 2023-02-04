@@ -14,14 +14,9 @@ import (
 )
 
 func GetProductsDefault(writer http.ResponseWriter, request *http.Request) {
-	var status int
-	products, err := product_service.Read()
-
-	RegisterFound, status := utils.CheckProducts(products, err)
-
-	RegisterFound.SortSlice()
-
-	response, _ := json.Marshal(RegisterFound)
+	products, status := product_service.Read()
+	products.SortSlice()
+	response, _ := json.Marshal(products)
 	executeResponse(writer, status, response)
 }
 

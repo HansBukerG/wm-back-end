@@ -4,18 +4,12 @@ import (
 	"net/http"
 
 	product_repository "github.com/HansBukerG/wm-back-end/src/repositories/product.repository"
-	"github.com/HansBukerG/wm-back-end/src/utils"
 
 	model "github.com/HansBukerG/wm-back-end/src/models"
 )
 
-func Read() (model.Products, error) {
+func Read() (model.Products, int) {
 	products, err := product_repository.ReadProducts()
-
-	if err != nil {
-		return nil, err
-	}
-	utils.PrintSlice(products)
 	return products, err
 }
 

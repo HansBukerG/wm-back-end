@@ -2,7 +2,6 @@ package utils
 
 import (
 	"log"
-	"net/http"
 	"strconv"
 	"strings"
 
@@ -119,22 +118,6 @@ func PrintSlice(slice model.Products) {
 	// 	log.Printf("Product with id: %d ", product.Id)
 	// }
 	log.Printf("Collection returned with %d values!", len(slice))
-}
-
-func CheckProducts(products model.Products, err error) (model.Products, int) {
-	var status int
-	if err != nil {
-		log.Printf("There is an error in call: " + err.Error())
-		status = http.StatusBadRequest
-		return nil, status
-	}
-	if len(products) == 0 {
-		log.Printf("Return with 0 data.")
-		status = http.StatusNoContent
-		return nil, status
-	}
-	status = http.StatusAccepted
-	return products, status
 }
 
 func CheckValue(search string) int {

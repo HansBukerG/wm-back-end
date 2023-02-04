@@ -67,25 +67,25 @@ func ReadByString(search string) (model.Products, int) {
 	return products, http.StatusAccepted
 }
 
-func ReadProducts() (model.Products, error) {
+func ReadProducts() (model.Products, int) {
 	filter := bson.D{}
 	options := options.Find().SetLimit(10).SetSkip(1)
 	var products model.Products
 	collectionRequest, err := collection.Find(ctx, filter, options)
 
 	if err != nil {
-		return nil, err
+		return nil, http.StatusNotFound
 	}
 	for collectionRequest.Next(ctx) {
 		var product model.Product
 		err := collectionRequest.Decode(&product)
 		if err != nil {
-			return nil, err
+			return nil, http.StatusConflict
 		}
 		if utils.LookForPalindromes(&product) {
 			utils.ApplyDiscountToProduct(&product)
 		}
 		products = append(products, &product)
 	}
-	return products, err
+	return products, http.StatusAccepted
 }

@@ -9,26 +9,25 @@ import (
 	"github.com/HansBukerG/wm-back-end/src/utils"
 )
 
-var slice_A model.Products
-var slice_B model.Products
-var slice_C model.Products
-var slice_D model.Products
+var sliceA model.Products
+var sliceB model.Products
+var sliceC model.Products
 
-var product_A = model.Product{
+var productA = model.Product{
 	Id:          1,
 	Brand:       "test",
 	Description: "test",
 	Image:       "test",
 	Price:       10000,
 }
-var product_B = model.Product{
+var productB = model.Product{
 	Id:          2,
 	Brand:       "test",
 	Description: "test",
 	Image:       "test",
 	Price:       10000,
 }
-var product_B_result = model.Product{
+var productBResult = model.Product{
 	Id:                  2,
 	Brand:               "test",
 	Description:         "test",
@@ -37,35 +36,35 @@ var product_B_result = model.Product{
 	Discount_percentaje: 50,
 	Original_price:      10000,
 }
-var product_C = model.Product{
+var productC = model.Product{
 	Id:          34,
 	Brand:       "asdfdsa",
 	Description: "test",
 	Image:       "test",
 	Price:       10000,
 }
-var product_D = model.Product{
+var productD = model.Product{
 	Id:          45,
 	Brand:       "test",
 	Description: "test",
 	Image:       "test",
 	Price:       10000,
 }
-var product_E = model.Product{
+var productE = model.Product{
 	Id:          5,
 	Brand:       "asddsa dsaasd",
 	Description: "asddsa dsaasd",
 	Image:       "test",
 	Price:       10000,
 }
-var product_F = model.Product{
+var productF = model.Product{
 	Id:          6,
 	Brand:       "test",
 	Description: "asdfdsa test",
 	Image:       "test",
 	Price:       10000,
 }
-var product_A_2 = model.Product{
+var productA2 = model.Product{
 	Id:                  1,
 	Brand:               "test",
 	Description:         "test",
@@ -84,13 +83,13 @@ type testPalindrome struct {
 
 func TestLookForPalindromes(t *testing.T) {
 	testData := []testPalindrome{
-		{product_A, true},
-		{product_A_2, true},
-		{product_B, true},
-		{product_C, true},
-		{product_D, false},
-		{product_E, true},
-		{product_F, true},
+		{productA, true},
+		{productA2, true},
+		{productB, true},
+		{productC, true},
+		{productD, false},
+		{productE, true},
+		{productF, true},
 	}
 
 	for _, datum := range testData {
@@ -106,15 +105,15 @@ type testSlice struct {
 }
 
 func TestUnifySlices(t *testing.T) {
-	slice_A = append(slice_A, &product_A, &product_B)
-	slice_B = append(slice_B, &product_C, &product_D, &product_A_2)
-	slice_B = append(slice_B, &product_C, &product_D, &product_A_2)
+	sliceA = append(sliceA, &productA, &productB)
+	sliceB = append(sliceB, &productC, &productD, &productA2)
+	sliceB = append(sliceB, &productC, &productD, &productA2)
 	test := []testSlice{
-		{slice_A},
-		{slice_B},
-		{slice_C},
-		{slice_A},
-		{slice_A},
+		{sliceA},
+		{sliceB},
+		{sliceC},
+		{sliceA},
+		{sliceA},
 	}
 
 	var result model.Products
@@ -135,9 +134,9 @@ type testDiscount struct {
 
 func TestApplyDiscountToProduct(t *testing.T) {
 
-	utils.ApplyDiscountToProduct(&product_B)
-	if product_B.Original_price != product_B_result.Original_price {
-		t.Errorf("ApplyDiscountToProduct(%d) FAILED, Expected %d, got %d", product_B.Id, product_B_result.Original_price, product_B.Original_price)
+	utils.ApplyDiscountToProduct(&productB)
+	if productB.Original_price != productBResult.Original_price {
+		t.Errorf("ApplyDiscountToProduct(%d) FAILED, Expected %d, got %d", productB.Id, productBResult.Original_price, productB.Original_price)
 	}
 }
 func TestIsPalindrome(t *testing.T) {
@@ -160,20 +159,20 @@ func TestApplyDiscount(t *testing.T) {
 		Image:       "test",
 		Price:       10000,
 	}
-	slice_A = append(slice_A, &product)
+	sliceA = append(sliceA, &product)
 
-	slice_A = utils.ApplyDiscount(slice_A)
+	sliceA = utils.ApplyDiscount(sliceA)
 
-	for _, product := range slice_A {
+	for _, product := range sliceA {
 		fmt.Printf("t: id: %v,brand: %v,description: %v,price: %v\n", product.Id, product.Brand, product.Description, product.Price)
 	}
 	t.Log(successMessage)
 }
 
 func TestFind(t *testing.T) {
-	slice_A = append(slice_A, &product_A, &product_B, &product_C, &product_D)
+	sliceA = append(sliceA, &productA, &productB, &productC, &productD)
 
-	if utils.Find(&product_C, slice_A) {
+	if utils.Find(&productC, sliceA) {
 		fmt.Printf("parameter found")
 	} else {
 		fmt.Printf("parameter not found")
@@ -188,8 +187,7 @@ func TestEmptyProduct(t *testing.T) {
 	t.Log(successMessage)
 }
 
-
-type testCheckValue struct{
+type testCheckValue struct {
 	filter string
 	result int
 }
@@ -201,9 +199,9 @@ func TestCheckValue(t *testing.T) {
 		{"asd", 2},
 	}
 
-	for _, datum:= range filter{
+	for _, datum := range filter {
 		result := utils.CheckValue(datum.filter)
-		if result != datum.result{
+		if result != datum.result {
 			t.Errorf("CheckValue(%s) FAILED, Expected %d, got %d", datum.filter, datum.result, result)
 		}
 	}
@@ -212,24 +210,24 @@ func TestCheckValue(t *testing.T) {
 }
 
 func TestAplyDiscount(t *testing.T) {
-	slice_A = append(slice_A, &product_A, &product_B, &product_C, &product_D)
+	sliceA = append(sliceA, &productA, &productB, &productC, &productD)
 
-	slice_B := utils.ApplyDiscount(slice_A)
+	sliceB := utils.ApplyDiscount(sliceA)
 
-	utils.PrintSlice(slice_B)
+	utils.PrintSlice(sliceB)
 }
 func TestRemoveItem(t *testing.T) {
 
-	slice_A = append(slice_A, &product_A, &product_B, &product_C, &product_D)
+	sliceA = append(sliceA, &productA, &productB, &productC, &productD)
 
-	slice_B := utils.RemoveItem(slice_A, 1)
+	sliceB := utils.RemoveItem(sliceA, 1)
 
-	utils.PrintSlice(slice_B)
+	utils.PrintSlice(sliceB)
 }
 func TestHasDiscount(t *testing.T) {
-	slice_A = append(slice_A, &product_A, &product_B, &product_C, &product_D)
+	sliceA = append(sliceA, &productA, &productB, &productC, &productD)
 
-	for _, v := range slice_A {
+	for _, v := range sliceA {
 		if utils.HasDiscount(v) {
 			log.Printf("This item has discount")
 		} else {

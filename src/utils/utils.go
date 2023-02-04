@@ -61,8 +61,8 @@ func Find(product *model.Product, products model.Products) bool {
 
 func LookForPalindromes(product *model.Product) bool {
 	return (IsPalindrome(strconv.Itoa(product.Id)) ||
-		check_filter(product.Brand) ||
-		check_filter(product.Description))
+		checkFilter(product.Brand) ||
+		checkFilter(product.Description))
 }
 
 func IsPalindrome(str string) bool {
@@ -75,9 +75,9 @@ func IsPalindrome(str string) bool {
 	return true
 }
 
-func check_filter(text string) bool {
-	description_fields := strings.Fields(text)
-	for _, value := range description_fields {
+func checkFilter(text string) bool {
+	descriptionFields := strings.Fields(text)
+	for _, value := range descriptionFields {
 		if IsPalindrome(value) {
 			return true
 		}

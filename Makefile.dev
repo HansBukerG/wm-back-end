@@ -20,15 +20,6 @@ flyctl deploy
 image-run:
 docker run -d -p 8080:8080 --name wm-back-end wm-back-end
 
-
-execute test:
-go test -v --cover
-
-go test -cover
-
-go test ./... -cover 
-go test -coverprofile=cover.txt
-
 this-works:
 go test ./... -coverprofile=cover.txt
 go tool cover -html=cover

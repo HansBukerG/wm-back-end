@@ -61,9 +61,9 @@ func Find(product *model.Product, products model.Products) bool {
 }
 
 func LookForPalindromes(product *model.Product) bool {
-	return (IsPalindrome(strconv.Itoa(product.Id)) || 
-	check_filter(product.Brand) || 
-	check_filter(product.Description))
+	return (IsPalindrome(strconv.Itoa(product.Id)) ||
+		check_filter(product.Brand) ||
+		check_filter(product.Description))
 }
 
 func IsPalindrome(str string) bool {

@@ -20,7 +20,21 @@ type Product struct {
 // type Product *product
 type Products []*Product
 
-func(products Products) SortSlice(){
+func (product *Product) SetEmptyProduct() *Product {
+	product = &Product{
+		Id_object:           [12]byte{0},
+		Id:                  0,
+		Brand:               "",
+		Description:         "",
+		Image:               "",
+		Price:               0,
+		Discount_percentaje: 0,
+		Original_price:      0,
+	}
+	return product
+}
+
+func (products Products) SortSlice() {
 	sort.Slice(products, func(i, j int) bool {
 		return products[i].Discount_percentaje > products[j].Discount_percentaje
 	})

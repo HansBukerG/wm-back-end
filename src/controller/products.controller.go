@@ -63,6 +63,7 @@ func GetProductByString(writer http.ResponseWriter, request *http.Request) {
 	productsResponse.SortSlice()
 
 	productsResponse.PrintSlice()
+	
 	response, _ := json.Marshal(productsResponse)
 	executeResponse(writer, statusResponse, response)
 }

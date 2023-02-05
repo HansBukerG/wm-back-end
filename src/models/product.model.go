@@ -87,7 +87,7 @@ func (products Products) AddProducts(newProducts Products) Products {
 }
 
 func (slice Products) PrintSlice() {
-	//uncomment for detailed info
+	// uncomment for detailed info
 	// for _, product := range slice {
 	// 	log.Printf("Product with id: %d ", product.Id)
 	// }

@@ -2,16 +2,11 @@ package utils_test
 
 import (
 	"fmt"
-	"log"
 	"testing"
 
 	model "github.com/HansBukerG/wm-back-end/src/models"
 	"github.com/HansBukerG/wm-back-end/src/utils"
 )
-
-var sliceA model.Products
-var sliceB model.Products
-var sliceC model.Products
 
 var productA = model.Product{
 	Id:          1,
@@ -100,45 +95,6 @@ func TestLookForPalindromes(t *testing.T) {
 	}
 }
 
-type testSlice struct {
-	filter model.Products
-}
-
-func TestUnifySlices(t *testing.T) {
-	sliceA = append(sliceA, &productA, &productB)
-	sliceB = append(sliceB, &productC, &productD, &productA2)
-	sliceB = append(sliceB, &productC, &productD, &productA2)
-	test := []testSlice{
-		{sliceA},
-		{sliceB},
-		{sliceC},
-		{sliceA},
-		{sliceA},
-	}
-
-	var result model.Products
-
-	for _, datum := range test {
-		result = utils.UnifySlices(result, datum.filter)
-	}
-
-	// voidSlice := utils.UnifySlices()
-
-	t.Log(successMessage)
-}
-
-type testDiscount struct {
-	filter model.Product
-	result model.Product
-}
-
-func TestApplyDiscountToProduct(t *testing.T) {
-
-	utils.ApplyDiscountToProduct(&productB)
-	if productB.Original_price != productBResult.Original_price {
-		t.Errorf("ApplyDiscountToProduct(%d) FAILED, Expected %d, got %d", productB.Id, productBResult.Original_price, productB.Original_price)
-	}
-}
 func TestIsPalindrome(t *testing.T) {
 
 	filter := "abba"
@@ -150,41 +106,6 @@ func TestIsPalindrome(t *testing.T) {
 	}
 	t.Log(successMessage)
 
-}
-func TestApplyDiscount(t *testing.T) {
-	product := model.Product{
-		Id:          3,
-		Brand:       "test",
-		Description: "test",
-		Image:       "test",
-		Price:       10000,
-	}
-	sliceA = append(sliceA, &product)
-
-	sliceA = utils.ApplyDiscount(sliceA)
-
-	for _, product := range sliceA {
-		fmt.Printf("t: id: %v,brand: %v,description: %v,price: %v\n", product.Id, product.Brand, product.Description, product.Price)
-	}
-	t.Log(successMessage)
-}
-
-func TestFind(t *testing.T) {
-	sliceA = append(sliceA, &productA, &productB, &productC, &productD)
-
-	if utils.Find(&productC, sliceA) {
-		fmt.Printf("parameter found")
-	} else {
-		fmt.Printf("parameter not found")
-	}
-	t.Log(successMessage)
-
-}
-
-func TestEmptyProduct(t *testing.T) {
-	product := utils.EmptyProduct()
-	fmt.Printf("empty product: %s ", product.Description)
-	t.Log(successMessage)
 }
 
 type testCheckValue struct {
@@ -205,33 +126,7 @@ func TestCheckValue(t *testing.T) {
 			t.Errorf("CheckValue(%s) FAILED, Expected %d, got %d", datum.filter, datum.result, result)
 		}
 	}
-
-	// t.Log(successMessage)
 }
 
-func TestAplyDiscount(t *testing.T) {
-	sliceA = append(sliceA, &productA, &productB, &productC, &productD)
 
-	sliceB := utils.ApplyDiscount(sliceA)
 
-	utils.PrintSlice(sliceB)
-}
-func TestRemoveItem(t *testing.T) {
-
-	sliceA = append(sliceA, &productA, &productB, &productC, &productD)
-
-	sliceB := utils.RemoveItem(sliceA, 1)
-
-	utils.PrintSlice(sliceB)
-}
-func TestHasDiscount(t *testing.T) {
-	sliceA = append(sliceA, &productA, &productB, &productC, &productD)
-
-	for _, v := range sliceA {
-		if utils.HasDiscount(v) {
-			log.Printf("This item has discount")
-		} else {
-			log.Printf("This item does not have a discount")
-		}
-	}
-}

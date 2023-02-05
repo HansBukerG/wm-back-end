@@ -11,7 +11,6 @@ import (
 	// model "github.com/HansBukerG/wm-back-end/src/models"
 	model "github.com/HansBukerG/wm-back-end/src/models"
 	product_repository "github.com/HansBukerG/wm-back-end/src/repositories/product.repository"
-	"github.com/HansBukerG/wm-back-end/src/utils"
 )
 
 var successMessage = "Success!"
@@ -51,8 +50,8 @@ func TestChannelReadByString(t *testing.T) {
 		{"notfound", http.StatusAccepted},
 		{"iñmfdpd", http.StatusAccepted},
 	}
-	
-	for _, datum := range testData{
+
+	for _, datum := range testData {
 		channelProducts, errTest := make(chan model.Products), make(chan int)
 		go product_repository.ChannelReadByString(datum.filter, channelProducts, errTest)
 		products := <-channelProducts
@@ -87,8 +86,8 @@ func TestReadProducts(t *testing.T) {
 	products, err := product_repository.ReadProducts()
 
 	if err != http.StatusAccepted {
-		t.Errorf("Error in ReadProducts(), status: %d",err )
+		t.Errorf("Error in ReadProducts(), status: %d", err)
 	}
-	utils.PrintSlice(products)
+	products.PrintSlice()
 	t.Log(successMessage)
 }

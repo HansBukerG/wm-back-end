@@ -20,10 +20,12 @@ func ReadById(id int) (model.Product, int) {
 	var product model.Product
 	err := collection.FindOne(ctx, filter).Decode(&product)
 	if err != nil {
-		return *product.SetEmptyProduct(), http.StatusNotFound
+		product.SetEmptyProduct()
+		return product, http.StatusNotFound
 	}
+
 	if utils.LookForPalindromes(&product) {
-		utils.ApplyDiscountToProduct(&product)
+		product.ApplyDiscountToProduct()
 	}
 	return product, http.StatusAccepted
 }
@@ -41,6 +43,7 @@ func ReadByString(search string) (model.Products, int) {
 
 	filter := bson.D{
 		{Key: "$or", Value: []interface{}{
+			bson.M{"id": bson.M{"$regex": search, "$options": "im"}},
 			bson.M{"brand": bson.M{"$regex": search, "$options": "im"}},
 			bson.M{"description": bson.M{"$regex": search, "$options": "im"}},
 		},
@@ -60,7 +63,7 @@ func ReadByString(search string) (model.Products, int) {
 			return nil, http.StatusConflict
 		}
 		if utils.LookForPalindromes(&product) {
-			utils.ApplyDiscountToProduct(&product)
+			product.ApplyDiscountToProduct()
 		}
 		products = append(products, &product)
 	}
@@ -83,7 +86,7 @@ func ReadProducts() (model.Products, int) {
 			return nil, http.StatusConflict
 		}
 		if utils.LookForPalindromes(&product) {
-			utils.ApplyDiscountToProduct(&product)
+			product.ApplyDiscountToProduct()
 		}
 		products = append(products, &product)
 	}

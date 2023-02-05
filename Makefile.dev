@@ -8,6 +8,9 @@ Database-migrate:
 image-build:
 docker build --tag wm-back-end .
 
+docker-tag:
+docker tag wm-back-end hansbukerg/wm-back-end
+
 image-push:
 docker push hansbukerg/wm-back-end
 

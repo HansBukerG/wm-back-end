@@ -16,6 +16,7 @@ import (
 func GetProductsDefault(writer http.ResponseWriter, request *http.Request) {
 	products, status := product_service.Read()
 	products.SortSlice()
+	products.PrintSlice()
 	response, _ := json.Marshal(products)
 	executeResponse(writer, status, response)
 }
@@ -48,7 +49,7 @@ func GetProductByString(writer http.ResponseWriter, request *http.Request) {
 
 		if statusRequest == http.StatusAccepted {
 			log.Printf("filter: %s has returned with data!", filter_item)
-			productsResponse = utils.UnifySlices(productsResponse, productRange)
+			productsResponse = productsResponse.AddProducts(productRange)
 			statusResponse = statusRequest
 			statusFlag = true
 		} else {
@@ -61,7 +62,7 @@ func GetProductByString(writer http.ResponseWriter, request *http.Request) {
 
 	productsResponse.SortSlice()
 
-	utils.PrintSlice(productsResponse)
+	productsResponse.PrintSlice()
 	response, _ := json.Marshal(productsResponse)
 	executeResponse(writer, statusResponse, response)
 }

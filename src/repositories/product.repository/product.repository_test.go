@@ -91,3 +91,25 @@ func TestReadProducts(t *testing.T) {
 	products.PrintSlice()
 	t.Log(successMessage)
 }
+
+type testCreate struct{
+	testProduct model.Product
+	result int
+}
+func TestCreate(t *testing.T){
+	// TestProduct := model.Product{
+	// 	Id:                  0,
+	// 	Brand:               "",
+	// 	Description:         "",
+	// 	Image:               "",
+	// 	Price:               0,
+	// 	Discount_percentaje: 0,
+	// 	Original_price:      0,
+	// }
+
+	// testData := []testCreate{
+		
+	// }
+
+
+}

@@ -92,3 +92,14 @@ func ReadProducts() (model.Products, int) {
 	}
 	return products, http.StatusAccepted
 }
+
+func Create(product model.Product) int {
+	var err error
+
+	_, err = collection.InsertOne(ctx, product)
+
+	if err != nil {
+		return http.StatusConflict
+	}
+	return http.StatusAccepted
+}

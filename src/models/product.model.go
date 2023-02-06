@@ -8,6 +8,14 @@ import (
 	// "github.com/HansBukerG/wm-back-end/src/utils"
 )
 
+type ProductCreate struct{
+	Id                  int                `json:"id"`
+	Brand               string             `json:"brand"`
+	Description         string             `json:"description"`
+	Image               string             `json:"image"`
+	Price               int                `json:"price"`
+}
+
 type Product struct {
 	Id_object           primitive.ObjectID `bson:"_id,omitempty"`
 	Id                  int                `json:"id"`
